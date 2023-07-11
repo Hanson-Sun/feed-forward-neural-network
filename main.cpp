@@ -43,7 +43,7 @@ int main()
 #if true
     srand(10);
 
-    FFNN nn(std::vector<int>{2, 4, 2},new Cost::L2Cost(), new Activation::Sigmoid());
+    FFNN nn(std::vector<int>{2, 2, 2},new Cost::L2Cost(), new Activation::Sigmoid());
 
     std::vector<std::tuple<Math::nVector, Math::nVector>> training = generateData(5000);
     std::vector<std::tuple<Math::nVector, Math::nVector>> testing = generateData(300);

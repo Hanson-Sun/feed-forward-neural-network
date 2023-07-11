@@ -23,4 +23,17 @@ namespace Activation
         Math::nVector fn(Math::nVector x) override;
         Math::nVector fnDerv(Math::nVector x) override;
     };
+
+    class LeakyRelu : public ActivationFn
+    {
+    private:
+        double m;
+    public:
+        LeakyRelu(double slope = 0.1)
+        {
+            m = slope;
+        }
+        Math::nVector fn(Math::nVector x) override;
+        Math::nVector fnDerv(Math::nVector x) override;
+    };
 }

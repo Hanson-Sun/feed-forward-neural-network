@@ -45,4 +45,25 @@ namespace Activation
         }
         return Math::nVector(v);
     }
+
+    Math::nVector LeakyRelu::fn(Math::nVector x)
+    {
+        std::vector<double> v;
+        for (double i : x.getVals()) 
+        {
+            v.push_back((i > 0) ? i : (i * m));
+        }
+        return Math::nVector(v);
+    }
+
+    Math::nVector LeakyRelu::fnDerv(Math::nVector x)
+    {
+        std::vector<double> v;
+        for (double i : x.getVals()) 
+        {
+            v.push_back((i > 0) ? 1 : m);
+        }
+        return Math::nVector(v);
+    }
+
 }

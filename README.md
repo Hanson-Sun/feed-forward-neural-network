@@ -12,3 +12,4 @@
 - refactor and optimize math library
 - figure out a direct matrix approach 
 - implement cross-validation and other proper analysis methods
+- test out some variable learning rate algs (momentum, ADAM, ...)

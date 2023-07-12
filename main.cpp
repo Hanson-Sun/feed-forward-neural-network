@@ -2,6 +2,7 @@
 #include "headers/matrix.h"
 #include "headers/vector.h"
 #include "headers/nn.h"
+#include "headers/read.h"
 
 std::vector<std::tuple<Math::nVector, Math::nVector>> generateData(int len)
 {
@@ -10,7 +11,7 @@ std::vector<std::tuple<Math::nVector, Math::nVector>> generateData(int len)
     {
         double x = std::abs(static_cast<double>(rand()) / RAND_MAX);
         double y = std::abs(static_cast<double>(rand()) / RAND_MAX);
-        double z = (x) * (x) + (y) * (y) - 0.7;
+        double z = (x) * (x) + (y) * (y)-0.7;
         Math::nVector input = Math::nVector(std::vector<double>{x, y});
         Math::nVector output = (z <= 0) ? Math::nVector(std::vector<double>{1, 0}) : Math::nVector(std::vector<double>{0, 1});
         data.push_back(std::make_tuple(input, output));
@@ -21,7 +22,16 @@ std::vector<std::tuple<Math::nVector, Math::nVector>> generateData(int len)
 
 int main()
 {
-#if true
+
+    auto data = readData("data/mnist_test.csv");
+
+    for (auto &v : data)
+    {
+        std::get<0>(v).print();
+        std::get<1>(v).print();
+    }
+    
+#if false
     srand(10);
 
     FFNN nn(std::vector<int>{2, 2, 2},new Cost::L2Cost(), new Activation::Sigmoid());
@@ -56,7 +66,6 @@ int main()
 
     //Math::Matrix::outerProduct(Math::nVector(std::vector<double>{1, 2}), Math::nVector(std::vector<double>{3, 4})).print();
     //Math::nVector::pairWiseMult(Math::nVector(std::vector<double>{1, 2}), Math::nVector(std::vector<double>{3, 4})).print();
-
 
 #endif
 

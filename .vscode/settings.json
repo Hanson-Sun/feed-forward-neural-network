@@ -84,6 +84,7 @@
         "socket": "cpp",
         "timer": "cpp",
         "future": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "fstream": "cpp"
     }
 }

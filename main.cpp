@@ -3,25 +3,6 @@
 #include "headers/vector.h"
 #include "headers/nn.h"
 
-Math::Matrix mult(const Math::Matrix &mat1, const Math::Matrix &mat2)
-{
-    const int height = mat1.height();
-    const int width = mat2.width();
-
-    if (mat1.width() != mat2.height())
-        throw std::invalid_argument("Dimension mismatch.");
-
-    std::vector<double> v(width, 0.0);
-    std::vector<std::vector<double>> vv(height, v);
-    for (int i = 0; i < height; i++)
-        for (int j = 0; j < width; j++)
-            for (int k = 0; k < mat2.height(); k++)
-                vv[i][j] += mat1[i][k] * mat2[k][j];
-
-    Math::Matrix m(vv);
-    return m;
-}
-
 std::vector<std::tuple<Math::nVector, Math::nVector>> generateData(int len)
 {
     std::vector<std::tuple<Math::nVector, Math::nVector>> data;

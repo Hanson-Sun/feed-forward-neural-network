@@ -156,7 +156,8 @@ std::tuple<std::vector<Math::nVector>, std::vector<Math::Matrix>> FFNN::backProp
         dw.push_back(Math::Matrix::generateEmptyCopy(w));
 
     Math::nVector activation = x;
-    layers[0] = x;
+    //layers[0] = x;
+    std::vector<Math::nVector> activations{x};
 
     std::vector<Math::nVector> zVals;
 
@@ -168,22 +169,27 @@ std::tuple<std::vector<Math::nVector>, std::vector<Math::Matrix>> FFNN::backProp
         Math::nVector z = w * activation + b;
         zVals.push_back(z);
         activation = activationFn->fn(z);
-        layers[i + 1] = activation;
+        //layers[i + 1] = activation;
+        activations.push_back(activation);
     }
 
-    Math::nVector delta = Math::nVector::pairWiseMult(costFn->funcDx(layers[layers.size() - 1], y), activationFn->fnDerv(zVals[zVals.size() - 1]));
+    //Math::nVector delta = Math::nVector::pairWiseMult(costFn->funcDx(layers[layers.size() - 1], y), activationFn->fnDerv(zVals[zVals.size() - 1]));
+    Math::nVector delta = Math::nVector::pairWiseMult(costFn->funcDx(activations[activations.size() - 1], y), activationFn->fnDerv(zVals[zVals.size() - 1]));
 
     db[db.size() - 1] = delta;
-    dw[dw.size() - 1] = Math::Matrix::outerProduct(delta, layers[layers.size() - 2]);
+    //dw[dw.size() - 1] = Math::Matrix::outerProduct(delta, layers[layers.size() - 2]);
+    dw[dw.size() - 1] = Math::Matrix::outerProduct(delta, activations[activations.size() - 2]);
+
 
     for (int l = 2; l < layers.size(); l++)
     {
         Math::nVector z = zVals[zVals.size() - l];
         Math::nVector activeDeriv = activationFn->fnDerv(z);
-        // bro why do i need to implement all these stupid math libraries...
         delta = Math::nVector::pairWiseMult(weights[weights.size() - l + 1].transpose() * delta, activeDeriv);
         db[db.size() - l] = delta;
-        dw[dw.size() - l] = Math::Matrix::outerProduct(delta, layers[layers.size() - l - 1]);
+        //dw[dw.size() - l] = Math::Matrix::outerProduct(delta, layers[layers.size() - l - 1]);
+        dw[dw.size() - l] = Math::Matrix::outerProduct(delta, activations[activations.size() - l - 1]);
+
     }
 
     return std::make_tuple(db, dw);

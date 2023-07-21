@@ -10,4 +10,4 @@
 
 Math::nVector generateLabel(int i);
 
-std::vector<std::tuple<Math::nVector, Math::nVector>> readData(std::string path);
+std::vector<std::tuple<Math::nVector, Math::nVector>> readData(std::string path, int size);

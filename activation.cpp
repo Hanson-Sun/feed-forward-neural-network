@@ -21,7 +21,7 @@ namespace Activation
         for (double i : x.getVals()) 
         {
             double sig = 1.0 / (1 + exp(-i));
-            v.push_back(sig * (1- sig));
+            v.push_back(sig * (1 - sig));
         }
         return Math::nVector(v);
     }

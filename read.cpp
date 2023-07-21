@@ -4,6 +4,7 @@
 #include <sstream>
 #include <tuple>
 #include <vector>
+#include <cmath>
 #include "headers/matrix.h"
 #include "headers/vector.h"
 #include "headers/read.h"
@@ -15,8 +16,7 @@ Math::nVector generateLabel(int i)
     return Math::nVector(v);
 }
 
-
-std::vector<std::tuple<Math::nVector, Math::nVector>> readData(std::string path)
+std::vector<std::tuple<Math::nVector, Math::nVector>> readData(std::string path, int size)
 {
     std::vector<std::tuple<Math::nVector, Math::nVector>> data;
 
@@ -33,22 +33,26 @@ std::vector<std::tuple<Math::nVector, Math::nVector>> readData(std::string path)
         {
             std::vector<double> row;
             std::stringstream s(line);
-
+            
             if (count >= 1)
             {
-
                 while (std::getline(s, word, ','))
-                {
-                    row.push_back(std::stod(word) / 255);
-                }
+                    row.push_back(std::stod(word));
+                
+                Math::nVector label = generateLabel((int)std::round(row[0]));
+                row.erase(row.begin());
+
+                // for (double &r : row)
+                //     r /= 255;
+                
+                data.push_back(std::tuple<Math::nVector, Math::nVector>(Math::nVector(row), label));
             }
 
-            Math::nVector label = generateLabel((int) row[0]);
-            row.erase(row.begin());
-            Math::nVector input(row);
+            if (count > size)
+            {
+                break;
+            }
 
-            data.push_back(std::tuple<Math::nVector, Math::nVector>(input, label));
-            
             count++;
         }
     }

@@ -3,7 +3,6 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
-#include "vector.h"
 #include "matrix.h"
 #include "cost.h"
 #include "activation.h"
@@ -12,36 +11,40 @@ class FFNN
 {
 private:
     std::vector<int> sizes;
-    std::vector<Math::nVector> layers;
+    std::vector<Math::Matrix> layers;
     Cost::CostFn *costFn;
     std::vector<Math::Matrix> weights;
-    std::vector<Math::nVector> bias;
+    std::vector<Math::Matrix> bias;
     Activation::ActivationFn *activationFn;
 
 public:
     FFNN(std::vector<int> s, Cost::CostFn *cFn = new Cost::L2Cost(), Activation::ActivationFn *activationFn = new Activation::Sigmoid());
     // stochastic mini-batch gradient descent
-    void train(std::vector<std::tuple<Math::nVector, Math::nVector>> &trainingData,
+    void train(std::vector<std::tuple<Math::Matrix, Math::Matrix>> &trainingData,
                int epochs, int miniBatchSize, double learningRate,
-               const std::vector<std::tuple<Math::nVector, Math::nVector>> &testData = std::vector<std::tuple<Math::nVector, Math::nVector>>());
+               const std::vector<std::tuple<Math::Matrix, Math::Matrix>> &testData = std::vector<std::tuple<Math::Matrix, Math::Matrix>>());
 
-    void updateMiniBatch(const std::vector<std::tuple<Math::nVector, Math::nVector>> &miniBatch, double learningRate);
-    Math::nVector feedForward(Math::nVector input);
-    std::tuple<std::vector<Math::nVector>, std::vector<Math::Matrix>> backPropagate(const Math::nVector &x, const Math::nVector &y);
+    void updateMiniBatch(const std::vector<std::tuple<Math::Matrix, Math::Matrix>> &miniBatch, double learningRate);
 
-    double evaluate(const std::vector<std::tuple<Math::nVector, Math::nVector>> &testingData);
+    Math::Matrix feedForward(Math::Matrix input);
+
+    std::tuple<std::vector<Math::Matrix>, std::vector<Math::Matrix>> backPropagate(const Math::Matrix &x, const Math::Matrix &y);
+
+    double evaluate(const std::vector<std::tuple<Math::Matrix, Math::Matrix>> &testingData);
+
+    double evaluateCost(const std::vector<std::tuple<Math::Matrix, Math::Matrix>> &testingData);
 
     std::vector<Math::Matrix> getWeights()
     {
         return weights;
     }
 
-    std::vector<Math::nVector> getBias()
+    std::vector<Math::Matrix> getBias()
     {
         return bias;
     }
 
-    std::vector<Math::nVector> getLayers()
+    std::vector<Math::Matrix> getLayers()
     {
         return layers;
     }

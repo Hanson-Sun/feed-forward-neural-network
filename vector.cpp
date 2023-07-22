@@ -1,4 +1,4 @@
-
+#if false
 #include <iostream>
 #include <vector>
 #include "headers/vector.h"
@@ -189,4 +189,6 @@ int main() {
 
     return 0;
 }
+#endif
+
 #endif

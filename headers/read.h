@@ -5,9 +5,7 @@
 #include <tuple>
 #include <vector>
 #include "matrix.h"
-#include "vector.h"
 
+Math::Matrix generateLabel(int i);
 
-Math::nVector generateLabel(int i);
-
-std::vector<std::tuple<Math::nVector, Math::nVector>> readData(std::string path, int size);
+std::vector<std::tuple<Math::Matrix, Math::Matrix>> readData(std::string path, int size);

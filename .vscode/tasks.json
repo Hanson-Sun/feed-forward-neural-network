@@ -6,7 +6,7 @@
             "command": "C:\\cygwin64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
-                "-g",
+                "-Ofast",
                 "./**.cpp",
                 "-o",
                 "${fileDirname}\\dist\\${fileBasenameNoExtension}.exe"

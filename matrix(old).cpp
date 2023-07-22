@@ -1,11 +1,13 @@
+#if false
+
 #include <iostream>
 #include <vector>
 #include <thread>
 #include <chrono>
 #include <algorithm>
-#include "headers/matrix.h"
+#include "headers/matrix(old).h"
 
-namespace Math
+namespace no
 {
     Matrix::Matrix(const std::vector<std::vector<double>> &g)
     {
@@ -405,4 +407,6 @@ int main()
 
     return 0;
 }
+#endif
+
 #endif

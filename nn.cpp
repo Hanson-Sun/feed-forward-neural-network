@@ -4,7 +4,6 @@
 #include <random>
 #include <tuple>
 #include <algorithm>
-#include "headers/vector.h"
 #include "headers/matrix.h"
 #include "headers/cost.h"
 #include "headers/activation.h"
@@ -20,7 +19,7 @@ FFNN::FFNN(std::vector<int> s, Cost::CostFn *cFn, Activation::ActivationFn *fn)
 
     for (int s : sizes)
     {
-        layers.push_back(Math::nVector::generateRandom(s));
+        layers.push_back(Math::Matrix::generateRandom(s, 1, 1));
     }
 
     // initialize a vector of bias vectors per layer
@@ -28,90 +27,118 @@ FFNN::FFNN(std::vector<int> s, Cost::CostFn *cFn, Activation::ActivationFn *fn)
     for (int j = 1; j < len; j++)
     {
         int s = sizes[j];
-        bias.push_back(Math::nVector::generateRandom(s));
+        bias.push_back(Math::Matrix::generateRandom(s, 1, 1));
     }
     // initialize matrix of weight per layer
     for (int j = 0; j < len - 1; j++)
     {
-        int rowSize = sizes[j];
-        int rowNum = sizes[j + 1];
-        weights.push_back(Math::Matrix::generateRandom(rowSize, rowNum));
+        int cols = sizes[j];
+        int rows = sizes[j + 1];
+        weights.push_back(Math::Matrix::generateRandom(rows, cols, 1));
     }
+}
+
+// thanks stackoverflow
+template <class BidiIter>
+BidiIter random_unique(BidiIter begin, BidiIter end, size_t num_random)
+{
+    size_t left = std::distance(begin, end);
+    while (num_random--)
+    {
+        BidiIter r = begin;
+        std::advance(r, rand() % left);
+        std::swap(*begin, *r);
+        ++begin;
+        --left;
+    }
+    return begin;
 }
 
 // stochastic mini-batch gradient descent
 // also tests inputs against testing data for accuracy, but is really slow
-void FFNN::train(std::vector<std::tuple<Math::nVector, Math::nVector>> &trainingData,
+void FFNN::train(std::vector<std::tuple<Math::Matrix, Math::Matrix>> &trainingData,
                  int epochs, int miniBatchSize, double learningRate,
-                 const std::vector<std::tuple<Math::nVector, Math::nVector>> &testData)
+                 const std::vector<std::tuple<Math::Matrix, Math::Matrix>> &testData)
 {
     int nTest = (testData.size() != 0) ? testData.size() : 0;
     int n = trainingData.size();
+    //int size = ((n % miniBatchSize == 0) ? (n / miniBatchSize) : (n / miniBatchSize + 1));
 
     auto rng = std::default_random_engine{};
     for (int i = 0; i < epochs; i++)
     {
-        std::shuffle(trainingData.begin(), trainingData.end(), rng);
-        std::vector<std::vector<std::tuple<Math::nVector, Math::nVector>>> miniBatches;
-        for (int j = 0; j < n; j += miniBatchSize)
-        {
-            auto end = (j + miniBatchSize < n) ? (trainingData.begin() + j + miniBatchSize) : trainingData.end();
-            std::vector<std::tuple<Math::nVector, Math::nVector>> miniBatch(trainingData.begin() + j, end);
-            miniBatches.push_back(miniBatch);
-        }
 
-        for (std::vector<std::tuple<Math::nVector, Math::nVector>> mb : miniBatches)
-            updateMiniBatch(mb, learningRate);
+        random_unique(trainingData.begin(), trainingData.end(), miniBatchSize);
+        std::vector<std::tuple<Math::Matrix, Math::Matrix>> miniBatch(trainingData.begin(), trainingData.begin() + miniBatchSize);
+
+        updateMiniBatch(miniBatch, learningRate);
+
+        // std::shuffle(trainingData.begin(), trainingData.end(), rng);
+        // std::vector<std::vector<std::tuple<Math::Matrix, Math::Matrix>>> miniBatches(size);
+        // int count = 0;
+        // for (int j = 0; j < n; j += miniBatchSize)
+        // {
+        //     auto end = (j + miniBatchSize < n) ? (trainingData.begin() + j + miniBatchSize) : trainingData.end();
+        //     std::vector<std::tuple<Math::Matrix, Math::Matrix>> miniBatch(trainingData.begin() + j, end);
+        //     miniBatches[count] = miniBatch;
+        //     count++;
+        // }
+
+        // for (const std::vector<std::tuple<Math::Matrix, Math::Matrix>> &mb : miniBatches)
+        //     updateMiniBatch(mb, learningRate);
 
         if (nTest != 0)
         {
             std::cout << "Epoch " << i << " completed.  ||  "
-                      << "Accuracy  of "
+                      << "Accuracy of "
                       << evaluate(testData)
+                      << ". With cost "
+                      << evaluateCost(testData)
                       << "." << std::endl;
         }
         else
         {
             std::cout << "Epoch " << i << " completed." << std::endl;
         }
+
         // for (auto b : layers)
         // {
-        //     std::cout << "layer-print ";
+        //     std::cout << "layer-print " << std::endl;
         //     b.print();
         // }
 
         // for (auto v : bias)
         // {
-        //     std::cout << "db-print ";
+        //     std::cout << "db-print " << std::endl;
         //     v.print();
         // }
 
         // for (auto v : weights)
         // {
-        //     std::cout << "dw-print ";
+        //     std::cout << "dw-print " << std::endl;
         //     v.print();
         // }
     }
 }
 
 // update weights and bias with back propagation
-void FFNN::updateMiniBatch(const std::vector<std::tuple<Math::nVector, Math::nVector>> &miniBatch, double learningRate)
+void FFNN::updateMiniBatch(const std::vector<std::tuple<Math::Matrix, Math::Matrix>> &miniBatch, double learningRate)
 {
-    std::vector<Math::nVector> db;
-    std::vector<Math::Matrix> dw;
+    std::vector<Math::Matrix> db(bias.size());
+    std::vector<Math::Matrix> dw(weights.size());
 
     double c = learningRate / miniBatch.size();
 
-    for (Math::nVector b : bias)
-        db.push_back(Math::nVector::generateEmptyCopy(b));
+    for (int i = 0; i < bias.size(); i++)
+        db[i] = Math::Matrix(bias[i]);
 
-    for (Math::Matrix w : weights)
-        dw.push_back(Math::Matrix::generateEmptyCopy(w));
+    for (int i = 0; i < weights.size(); i++)
+        dw[i] = Math::Matrix(weights[i]);
 
-    for (std::tuple<Math::nVector, Math::nVector> tup : miniBatch)
+    for (const std::tuple<Math::Matrix, Math::Matrix> &tup : miniBatch)
     {
-        std::tuple<std::vector<Math::nVector>, std::vector<Math::Matrix>> backProp = backPropagate(std::get<0>(tup), std::get<1>(tup));
-        std::vector<Math::nVector> ddb = std::get<0>(backProp);
+        std::tuple<std::vector<Math::Matrix>, std::vector<Math::Matrix>> backProp = backPropagate(std::get<0>(tup), std::get<1>(tup));
+        std::vector<Math::Matrix> ddb = std::get<0>(backProp);
         std::vector<Math::Matrix> ddw = std::get<1>(backProp);
 
         for (int i = 0; i < db.size(); i++)
@@ -122,86 +149,85 @@ void FFNN::updateMiniBatch(const std::vector<std::tuple<Math::nVector, Math::nVe
     }
 
     for (int i = 0; i < weights.size(); i++)
-    {
         weights[i] -= dw[i] * c;
-    }
 
     for (int i = 0; i < bias.size(); i++)
-    {
         bias[i] -= db[i] * c;
-    }
+
+    // std::cout << "c values " << c << std::endl;
+    // for (auto v : dw)
+    // {
+    //     std::cout << "dw-print " << std::endl;
+    //     v.print();
+    // }
 }
 
-Math::nVector FFNN::feedForward(Math::nVector input)
+Math::Matrix FFNN::feedForward(Math::Matrix input)
 {
     // returns network output for input
     for (int i = 0; i < weights.size(); i++)
     {
-        auto b = bias[i];
-        auto w = weights[i];
-        input = (w * input) + b;
+        input = activationFn->fn((weights[i] * input) + bias[i]);
     }
     return input;
 }
 
-std::tuple<std::vector<Math::nVector>, std::vector<Math::Matrix>> FFNN::backPropagate(const Math::nVector &x, const Math::nVector &y)
+std::tuple<std::vector<Math::Matrix>, std::vector<Math::Matrix>> FFNN::backPropagate(const Math::Matrix &x, const Math::Matrix &y)
 {
-    std::vector<Math::nVector> db;
-    std::vector<Math::Matrix> dw;
+    std::vector<Math::Matrix> db(bias.size());
+    std::vector<Math::Matrix> dw(weights.size());
 
-    for (Math::nVector b : bias)
-        db.push_back(Math::nVector::generateEmptyCopy(b));
+    for (int i = 0; i < bias.size(); i++)
+        db[i] = Math::Matrix(bias[i]);
 
-    for (Math::Matrix w : weights)
-        dw.push_back(Math::Matrix::generateEmptyCopy(w));
+    for (int i = 0; i < weights.size(); i++)
+        dw[i] = Math::Matrix(weights[i]);
 
-    Math::nVector activation = x;
-    //layers[0] = x;
-    std::vector<Math::nVector> activations{x};
+    Math::Matrix activation = x;
+    layers[0] = x;
+    // std::vector<Math::Matrix> activations{x};
 
-    std::vector<Math::nVector> zVals;
+    std::vector<Math::Matrix> zVals;
 
     // propagate the values forward starting at x, and keep track of each layer
     for (int i = 0; i < bias.size(); i++)
     {
-        Math::Matrix w = weights[i];
-        Math::nVector b = bias[i];
-        Math::nVector z = w * activation + b;
+        Math::Matrix z = weights[i] * activation + bias[i];
         zVals.push_back(z);
         activation = activationFn->fn(z);
-        //layers[i + 1] = activation;
-        activations.push_back(activation);
+        layers[i + 1] = activation;
+        // activations.push_back(activation);
     }
 
-    //Math::nVector delta = Math::nVector::pairWiseMult(costFn->funcDx(layers[layers.size() - 1], y), activationFn->fnDerv(zVals[zVals.size() - 1]));
-    Math::nVector delta = Math::nVector::pairWiseMult(costFn->funcDx(activations[activations.size() - 1], y), activationFn->fnDerv(zVals[zVals.size() - 1]));
+    Math::Matrix delta = Math::Matrix::hProd(costFn->funcDx(layers[layers.size() - 1], y), activationFn->fnDerv(zVals[zVals.size() - 1]));
+    // Math::Matrix delta = Math::Matrix::hProd(costFn->funcDx(activations[activations.size() - 1], y), activationFn->fnDerv(zVals[zVals.size() - 1]));
 
     db[db.size() - 1] = delta;
-    //dw[dw.size() - 1] = Math::Matrix::outerProduct(delta, layers[layers.size() - 2]);
-    dw[dw.size() - 1] = Math::Matrix::outerProduct(delta, activations[activations.size() - 2]);
-
+    dw[dw.size() - 1] = Math::Matrix::oProd(delta, layers[layers.size() - 2]);
+    // dw[dw.size() - 1] = Math::Matrix::oProd(delta, activations[activations.size() - 2]);
 
     for (int l = 2; l < layers.size(); l++)
     {
-        Math::nVector z = zVals[zVals.size() - l];
-        Math::nVector activeDeriv = activationFn->fnDerv(z);
-        delta = Math::nVector::pairWiseMult(weights[weights.size() - l + 1].transpose() * delta, activeDeriv);
+        Math::Matrix z = zVals[zVals.size() - l];
+        delta = Math::Matrix::hProd(Math::Matrix::iProd(weights[weights.size() - l + 1], delta), activationFn->fnDerv(z));
         db[db.size() - l] = delta;
-        //dw[dw.size() - l] = Math::Matrix::outerProduct(delta, layers[layers.size() - l - 1]);
-        dw[dw.size() - l] = Math::Matrix::outerProduct(delta, activations[activations.size() - l - 1]);
-
+        dw[dw.size() - l] = Math::Matrix::oProd(delta, layers[layers.size() - l - 1]);
+        // dw[dw.size() - l] = Math::Matrix::oProd(delta, activations[activations.size() - l - 1]);
     }
 
     return std::make_tuple(db, dw);
 }
 
-double FFNN::evaluate(const std::vector<std::tuple<Math::nVector, Math::nVector>> &testingData)
+double FFNN::evaluate(const std::vector<std::tuple<Math::Matrix, Math::Matrix>> &testingData)
 {
     double correct = 0;
-    for (std::tuple<Math::nVector, Math::nVector> tup : testingData)
+    for (std::tuple<Math::Matrix, Math::Matrix> tup : testingData)
     {
-        Math::nVector output = feedForward(std::get<0>(tup));
-        Math::nVector actual = std::get<1>(tup);
+        Math::Matrix output = feedForward(std::get<0>(tup));
+        Math::Matrix actual = std::get<1>(tup);
+
+        // output.print();
+        // actual.print();
 
         std::vector<double> ov = output.getVals();
         std::vector<double> av = actual.getVals();
@@ -213,4 +239,16 @@ double FFNN::evaluate(const std::vector<std::tuple<Math::nVector, Math::nVector>
             correct++;
     }
     return correct / testingData.size();
+}
+
+double FFNN::evaluateCost(const std::vector<std::tuple<Math::Matrix, Math::Matrix>> &testingData)
+{
+    double cost = 0;
+    for (std::tuple<Math::Matrix, Math::Matrix> tup : testingData)
+    {
+        Math::Matrix output = feedForward(std::get<0>(tup));
+        Math::Matrix actual = std::get<1>(tup);
+        cost += costFn->func(actual, output);
+    }
+    return cost;
 }

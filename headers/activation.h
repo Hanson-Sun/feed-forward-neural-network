@@ -1,27 +1,27 @@
 #pragma once
-#include "vector.h"
+#include "matrix.h"
 
 namespace Activation
 {
     class ActivationFn
     {
     public:
-        virtual Math::nVector fn(Math::nVector x) = 0;
-        virtual Math::nVector fnDerv(Math::nVector x) = 0;
+        virtual Math::Matrix fn(Math::Matrix x) = 0;
+        virtual Math::Matrix fnDerv(Math::Matrix x) = 0;
     };
 
     class Sigmoid : public ActivationFn
     {
     public:
-        Math::nVector fn(Math::nVector x) override;
-        Math::nVector fnDerv(Math::nVector x) override;
+        Math::Matrix fn(Math::Matrix x) override;
+        Math::Matrix fnDerv(Math::Matrix x) override;
     };
 
     class Relu : public ActivationFn
     {
     public:
-        Math::nVector fn(Math::nVector x) override;
-        Math::nVector fnDerv(Math::nVector x) override;
+        Math::Matrix fn(Math::Matrix x) override;
+        Math::Matrix fnDerv(Math::Matrix x) override;
     };
 
     class LeakyRelu : public ActivationFn
@@ -33,7 +33,7 @@ namespace Activation
         {
             m = slope;
         }
-        Math::nVector fn(Math::nVector x) override;
-        Math::nVector fnDerv(Math::nVector x) override;
+        Math::Matrix fn(Math::Matrix x) override;
+        Math::Matrix fnDerv(Math::Matrix x) override;
     };
 }

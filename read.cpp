@@ -6,19 +6,18 @@
 #include <vector>
 #include <cmath>
 #include "headers/matrix.h"
-#include "headers/vector.h"
 #include "headers/read.h"
 
-Math::nVector generateLabel(int i)
+Math::Matrix generateLabel(int i)
 {
     std::vector<double> v(10, 0);
     v[i] = 1;
-    return Math::nVector(v);
+    return Math::Matrix(v);
 }
 
-std::vector<std::tuple<Math::nVector, Math::nVector>> readData(std::string path, int size)
+std::vector<std::tuple<Math::Matrix, Math::Matrix>> readData(std::string path, int size)
 {
-    std::vector<std::tuple<Math::nVector, Math::nVector>> data;
+    std::vector<std::tuple<Math::Matrix, Math::Matrix>> data;
 
     std::fstream fin;
     // opens an existing csv file or creates a new file.
@@ -39,13 +38,13 @@ std::vector<std::tuple<Math::nVector, Math::nVector>> readData(std::string path,
                 while (std::getline(s, word, ','))
                     row.push_back(std::stod(word));
                 
-                Math::nVector label = generateLabel((int)std::round(row[0]));
+                Math::Matrix label = generateLabel((int)std::round(row[0]));
                 row.erase(row.begin());
 
                 // for (double &r : row)
                 //     r /= 255;
                 
-                data.push_back(std::tuple<Math::nVector, Math::nVector>(Math::nVector(row), label));
+                data.push_back(std::tuple<Math::Matrix, Math::Matrix>(Math::Matrix(row), label));
             }
 
             if (count > size)

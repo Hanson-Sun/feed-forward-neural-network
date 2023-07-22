@@ -1,12 +1,19 @@
 #include "headers/cost.h"
+#include "headers/matrix.h"
 
 namespace Cost
 {
-    double L2Cost::func(Math::nVector x, Math::nVector y)
+    double L2Cost::func(Math::Matrix x, Math::Matrix y)
     {
-        return (x - y).magSqr();
+        Math::Matrix diff = x - y;
+        double sum = 0;
+        for (int i = 0; i < diff.getSize(); i++)
+        {
+            sum += diff[i] * diff[i];
+        }
+        return sum;
     }
-    Math::nVector L2Cost::funcDx(Math::nVector x, Math::nVector y)
+    Math::Matrix L2Cost::funcDx(Math::Matrix x, Math::Matrix y)
     {
         return (x - y);
     }

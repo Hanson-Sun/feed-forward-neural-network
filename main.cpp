@@ -1,4 +1,5 @@
 #include <iostream>
+#include <tuple>
 #include "headers/matrix.h"
 #include "headers/nn.h"
 #include "headers/read.h"
@@ -10,9 +11,43 @@ std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateData(int len)
     {
         double x = std::abs(static_cast<double>(rand()) / RAND_MAX);
         double y = std::abs(static_cast<double>(rand()) / RAND_MAX);
-        double z = (x) * (x) + (y) * (y) - 0.7;
+        double z = (x) * (x) + (y) * (y)-0.7;
         Math::Matrix input = Math::Matrix(std::vector<double>{x, y});
         Math::Matrix output = (z <= 0) ? Math::Matrix(std::vector<double>{1, 0}) : Math::Matrix(std::vector<double>{0, 1});
+        data.push_back(std::make_tuple(input, output));
+    }
+
+    return data;
+}
+
+std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateQuarterCircleData(int len)
+{
+    std::vector<std::tuple<Math::Matrix, Math::Matrix>> data;
+    for (int i = 0; i < len; i++)
+    {
+        double x = std::abs(static_cast<double>(rand()) / RAND_MAX) * 10;
+        double y = std::abs(static_cast<double>(rand()) / RAND_MAX) * 10;
+        double z = (x) * (x) + (y) * (y);
+        Math::Matrix input = Math::Matrix(std::vector<double>{x, y});
+        Math::Matrix output = (z <= 6.5 * 6.5) ? Math::Matrix(std::vector<double>{1, 0}) : Math::Matrix(std::vector<double>{0, 1});
+        data.push_back(std::make_tuple(input, output));
+    }
+
+    return data;
+}
+
+std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateLinearData(int len)
+{
+    std::vector<std::tuple<Math::Matrix, Math::Matrix>> data;
+    for (int i = 0; i < len; i++)
+    {
+        double x = static_cast<double>(rand()) / RAND_MAX * 20 - 10;
+        double y = static_cast<double>(rand()) / RAND_MAX * 20 - 10;
+        double z = -3 * x + 2 * y + 2;
+        Math::Matrix input = Math::Matrix(std::vector<double>{x, y});
+        // Math::Matrix output = (z > 50) ? Math::Matrix(std::vector<double>{2, -2}) : Math::Matrix(std::vector<double>{-2, 2});
+        // Math::Matrix output = (z > 10) ? Math::Matrix(std::vector<double>{1}) : Math::Matrix(std::vector<double>{-1});
+        Math::Matrix output = Math::Matrix(std::vector<double>{z});
         data.push_back(std::make_tuple(input, output));
     }
 
@@ -22,40 +57,91 @@ std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateData(int len)
 int main()
 {
 
+    // Math::Matrix::oProd(Math::Matrix(std::vector<double>{-0.000417, 0.000042, -0.000664, -0.000007}),
+    //                     Math::Matrix(std::vector<double>{3.749168, -0.079840, -0.165974, 4.228167})).print();
+
+#if false
+    auto fn = new Cost::CrossEntropy();
+
+    std::cout << fn->func(Math::Matrix(std::vector<double>{0.5, 0.5}), Math::Matrix(std::vector<double>{1, 1})) << std::endl;
+    std::cout << fn->func(Math::Matrix(std::vector<double>{-0.5, 0.5}), Math::Matrix(std::vector<double>{1, 1})) << std::endl;
+
+    std::cout << fn->funcDx(Math::Matrix(std::vector<double>{0.5, 0.5}), Math::Matrix(std::vector<double>{1, 1})) << std::endl;
+    std::cout << fn->funcDx(Math::Matrix(std::vector<double>{-0.5, 0.5}), Math::Matrix(std::vector<double>{1, 1})) << std::endl;
+    std::cout << fn->funcDx(Math::Matrix(std::vector<double>{2, -0.5}), Math::Matrix(std::vector<double>{1, 1})) << std::endl;
+
+#endif
+
+// data visualization fr.
 #if false
 
-    Activation::ActivationFn *fn = new Activation::Sigmoid();
+    std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = readData("data/mnist_train.csv", 1);
+    auto data = training[0];
+    auto input = get<0>(data);
+    auto output = get<1>(data);
 
-    auto bruh = Math::Matrix(std::vector<double>{1, 2, 3, 4});
-    bruh.print();
+    output.print();
 
-    fn->fn(bruh).print();
-    fn->fnDerv(bruh).print();
+    for (int i = 0; i < input.getVals().size(); i++)
+    {
+        if (input[i] < 10)
+            std::cout << input[i] << "  ";
+        else if (input[i] > 10 && input[i] < 100)
+            std::cout << input[i] << " ";
+        else
+            std::cout << input[i];
+        if ((i + 1) % 28 == 0)
+            std::cout << std::endl;
+    }
 
 #endif
 #if false
+    {
+        std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = readData("data/mnist_train.csv", 3000);
+        std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = readData("data/mnist_test.csv", 300);
 
-    std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = readData("data/mnist_train.csv", 5000);
-    std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = readData("data/mnist_test.csv", 800);
+        FFNN nn(std::vector<int>{784, 30},new Cost::L2Cost(), new Activation::LeakyRelu());
+        nn.addLayer(10, new Activation::Sigmoid());
 
-    FFNN nn(std::vector<int>{784, 100, 30, 10},new Cost::L2Cost(), new Activation::Sigmoid());
+        nn.train(training, 300, 1000, 10, testing);
 
-    nn.train(training, 30, 5000, 3, testing);
+        std::cout << nn.evaluate(testing) << std::endl;
+    }
+#endif
 
-    std::cout << nn.evaluate(testing) << std::endl;
-#endif  
+#if false
+    {
+        FFNN nn(std::vector<int>{2, 1}, new Cost::L2Cost(), new Activation::Linear());
+        std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateLinearData(1000);
+        std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateLinearData(1);
+
+        nn.train(training, 250, 1000, 0.01);
+
+        std::cout << nn.evaluate(testing) << std::endl;
+        nn.print();
+    }
+#endif
 
 #if true
-    srand(10);
+    {
+        srand(10);
 
-    FFNN nn(std::vector<int>{2, 4, 2},new Cost::L2Cost(), new Activation::Sigmoid());
+        FFNN nn(std::vector<int>{2, 4, 4}, new Cost::L2Cost(), new Activation::LeakyRelu());
+        nn.addLayer(2, new Activation::Sigmoid());
 
-    std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateData(1000);
-    std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateData(100);
+        nn.print();
+        // nn.addLayer(4, new Activation::LeakyRelu(), 0);
+        // nn.print();
 
-    nn.train(training, 300, 1000, 30, testing);
+        // std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateData(2000);
+        // std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateData(300);
+        std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateQuarterCircleData(3000);
+        std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateQuarterCircleData(300);
 
-    std::cout << nn.evaluate(testing) << std::endl;
+        nn.train(training, 300, 2000, 1, testing);
+
+        std::cout << nn.evaluate(testing) << std::endl;
+    }
 #endif
 
 #if false

@@ -1,0 +1,1166 @@
+desc: (none)
+cmd: ./dist/mainl.exe
+time_unit: i
+#-----------
+snapshot=0
+#-----------
+time=0
+mem_heap_B=0
+mem_heap_extra_B=0
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=1
+#-----------
+time=5916016
+mem_heap_B=699228
+mem_heap_extra_B=65980
+mem_stacks_B=0
+heap_tree=peak
+n4: 699228 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 491520 0x112F16: allocate (new_allocator.h:127)
+  n1: 491520 0x112F16: allocate (allocator.h:185)
+   n1: 491520 0x112F16: allocate (alloc_traits.h:464)
+    n1: 491520 0x112F16: _M_allocate (stl_vector.h:346)
+     n1: 491520 0x112F16: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:440)
+      n1: 491520 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+       n1: 491520 0x112205: push_back (stl_vector.h:1204)
+        n1: 491520 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+         n0: 491520 0x10F11C: main (main.cpp:138)
+ n1: 131168 0x111CC3: allocate (new_allocator.h:127)
+  n1: 131168 0x111CC3: allocate (allocator.h:185)
+   n1: 131168 0x111CC3: allocate (alloc_traits.h:464)
+    n1: 131168 0x111CC3: _M_allocate (stl_vector.h:346)
+     n1: 131168 0x111CC3: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<double const*, std::vector<double> > > (stl_vector.h:1511)
+      n5: 131168 0x111CC3: std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&) [clone .isra.0] (vector.tcc:226)
+       n1: 49152 0x112D8A: Matrix (matrix.h:379)
+        n1: 49152 0x112D8A: _Head_base (tuple:195)
+         n1: 49152 0x112D8A: _Tuple_impl (tuple:444)
+          n1: 49152 0x112D8A: _Tuple_impl (tuple:295)
+           n1: 49152 0x112D8A: tuple (tuple:1092)
+            n1: 49152 0x112D8A: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+             n1: 49152 0x112D8A: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+              n1: 49152 0x112D8A: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+               n1: 49152 0x112D8A: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+                n1: 49152 0x112D8A: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                 n1: 49152 0x112D8A: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                  n1: 49152 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                   n1: 49152 0x112205: push_back (stl_vector.h:1204)
+                    n1: 49152 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                     n0: 49152 0x10F11C: main (main.cpp:138)
+       n1: 49152 0x112DB9: Matrix (matrix.h:379)
+        n1: 49152 0x112DB9: _Head_base (tuple:195)
+         n1: 49152 0x112DB9: _Tuple_impl (tuple:295)
+          n1: 49152 0x112DB9: tuple (tuple:1092)
+           n1: 49152 0x112DB9: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+            n1: 49152 0x112DB9: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+             n1: 49152 0x112DB9: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+              n1: 49152 0x112DB9: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+               n1: 49152 0x112DB9: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                n1: 49152 0x112DB9: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                 n1: 49152 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                  n1: 49152 0x112205: push_back (stl_vector.h:1204)
+                   n1: 49152 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                    n0: 49152 0x10F11C: main (main.cpp:138)
+       n1: 16368 0x112049: Matrix (matrix.h:379)
+        n1: 16368 0x112049: _Head_base (tuple:196)
+         n1: 16368 0x112049: _Tuple_impl (tuple:456)
+          n1: 16368 0x112049: _Tuple_impl (tuple:301)
+           n1: 16368 0x112049: tuple (tuple:1094)
+            n1: 16368 0x112049: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+             n1: 16368 0x112049: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+              n1: 16368 0x112049: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+               n1: 16368 0x112049: push_back (stl_vector.h:1204)
+                n1: 16368 0x112049: generateQuarterCircleData(int) (main.cpp:33)
+                 n0: 16368 0x10F11C: main (main.cpp:138)
+       n1: 16368 0x11207D: Matrix (matrix.h:379)
+        n1: 16368 0x11207D: _Head_base (tuple:196)
+         n1: 16368 0x11207D: _Tuple_impl (tuple:301)
+          n1: 16368 0x11207D: tuple (tuple:1094)
+           n1: 16368 0x11207D: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+            n1: 16368 0x11207D: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+             n1: 16368 0x11207D: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+              n1: 16368 0x11207D: push_back (stl_vector.h:1204)
+               n1: 16368 0x11207D: generateQuarterCircleData(int) (main.cpp:33)
+                n0: 16368 0x10F11C: main (main.cpp:138)
+       n0: 128 in 7 places, all below massif's threshold (1.00%)
+ n1: 72704 0x4900979: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n0: 72704 0x40202E9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+ n0: 3836 in 23 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=2
+#-----------
+time=90066698
+mem_heap_B=552612
+mem_heap_extra_B=53484
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=3
+#-----------
+time=152552413
+mem_heap_B=552708
+mem_heap_extra_B=53492
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=4
+#-----------
+time=236427562
+mem_heap_B=552372
+mem_heap_extra_B=53420
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=5
+#-----------
+time=320276870
+mem_heap_B=553012
+mem_heap_extra_B=53532
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=6
+#-----------
+time=415927213
+mem_heap_B=551108
+mem_heap_extra_B=53260
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=7
+#-----------
+time=516220865
+mem_heap_B=552460
+mem_heap_extra_B=53428
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=8
+#-----------
+time=606832862
+mem_heap_B=553148
+mem_heap_extra_B=53660
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=9
+#-----------
+time=684639797
+mem_heap_B=552340
+mem_heap_extra_B=53412
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=10
+#-----------
+time=762449116
+mem_heap_B=552708
+mem_heap_extra_B=53524
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=11
+#-----------
+time=891519512
+mem_heap_B=552404
+mem_heap_extra_B=53428
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=12
+#-----------
+time=965742357
+mem_heap_B=552724
+mem_heap_extra_B=53516
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=13
+#-----------
+time=1039964582
+mem_heap_B=552708
+mem_heap_extra_B=53540
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=14
+#-----------
+time=1156599903
+mem_heap_B=552340
+mem_heap_extra_B=53412
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=15
+#-----------
+time=1241426655
+mem_heap_B=552404
+mem_heap_extra_B=53428
+mem_stacks_B=0
+heap_tree=detailed
+n4: 552404 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 368640 0x112F16: allocate (new_allocator.h:127)
+  n1: 368640 0x112F16: allocate (allocator.h:185)
+   n1: 368640 0x112F16: allocate (alloc_traits.h:464)
+    n1: 368640 0x112F16: _M_allocate (stl_vector.h:346)
+     n1: 368640 0x112F16: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:440)
+      n1: 368640 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+       n1: 368640 0x112205: push_back (stl_vector.h:1204)
+        n2: 368640 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+         n0: 327680 0x10F11C: main (main.cpp:138)
+         n0: 40960 0x10F129: main (main.cpp:139)
+ n1: 105600 0x111CC3: allocate (new_allocator.h:127)
+  n1: 105600 0x111CC3: allocate (allocator.h:185)
+   n1: 105600 0x111CC3: allocate (alloc_traits.h:464)
+    n1: 105600 0x111CC3: _M_allocate (stl_vector.h:346)
+     n1: 105600 0x111CC3: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<double const*, std::vector<double> > > (stl_vector.h:1511)
+      n5: 105600 0x111CC3: std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&) [clone .isra.0] (vector.tcc:226)
+       n1: 36864 0x112D8A: Matrix (matrix.h:379)
+        n1: 36864 0x112D8A: _Head_base (tuple:195)
+         n1: 36864 0x112D8A: _Tuple_impl (tuple:444)
+          n1: 36864 0x112D8A: _Tuple_impl (tuple:295)
+           n1: 36864 0x112D8A: tuple (tuple:1092)
+            n1: 36864 0x112D8A: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+             n1: 36864 0x112D8A: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+              n1: 36864 0x112D8A: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+               n1: 36864 0x112D8A: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+                n1: 36864 0x112D8A: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                 n1: 36864 0x112D8A: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                  n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                   n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                    n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                     n0: 32768 0x10F11C: main (main.cpp:138)
+                     n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 36864 0x112DB9: Matrix (matrix.h:379)
+        n1: 36864 0x112DB9: _Head_base (tuple:195)
+         n1: 36864 0x112DB9: _Tuple_impl (tuple:295)
+          n1: 36864 0x112DB9: tuple (tuple:1092)
+           n1: 36864 0x112DB9: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+            n1: 36864 0x112DB9: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+             n1: 36864 0x112DB9: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+              n1: 36864 0x112DB9: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+               n1: 36864 0x112DB9: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                n1: 36864 0x112DB9: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                 n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                  n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                   n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                    n0: 32768 0x10F11C: main (main.cpp:138)
+                    n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x112049: Matrix (matrix.h:379)
+        n1: 15904 0x112049: _Head_base (tuple:196)
+         n1: 15904 0x112049: _Tuple_impl (tuple:456)
+          n1: 15904 0x112049: _Tuple_impl (tuple:301)
+           n1: 15904 0x112049: tuple (tuple:1094)
+            n1: 15904 0x112049: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+             n1: 15904 0x112049: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+              n1: 15904 0x112049: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+               n1: 15904 0x112049: push_back (stl_vector.h:1204)
+                n2: 15904 0x112049: generateQuarterCircleData(int) (main.cpp:33)
+                 n0: 15216 0x10F11C: main (main.cpp:138)
+                 n0: 688 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x11207D: Matrix (matrix.h:379)
+        n1: 15904 0x11207D: _Head_base (tuple:196)
+         n1: 15904 0x11207D: _Tuple_impl (tuple:301)
+          n1: 15904 0x11207D: tuple (tuple:1094)
+           n1: 15904 0x11207D: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+            n1: 15904 0x11207D: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+             n1: 15904 0x11207D: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+              n1: 15904 0x11207D: push_back (stl_vector.h:1204)
+               n2: 15904 0x11207D: generateQuarterCircleData(int) (main.cpp:33)
+                n0: 15216 0x10F11C: main (main.cpp:138)
+                n0: 688 in 1 place, below massif's threshold (1.00%)
+       n0: 64 in 7 places, all below massif's threshold (1.00%)
+ n1: 72704 0x4900979: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n0: 72704 0x40202E9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+ n0: 5460 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=16
+#-----------
+time=1358061919
+mem_heap_B=552660
+mem_heap_extra_B=53516
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=17
+#-----------
+time=1448228657
+mem_heap_B=552508
+mem_heap_extra_B=53444
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=18
+#-----------
+time=1506585282
+mem_heap_B=552796
+mem_heap_extra_B=53508
+mem_stacks_B=0
+heap_tree=detailed
+n4: 552796 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 368640 0x112F16: allocate (new_allocator.h:127)
+  n1: 368640 0x112F16: allocate (allocator.h:185)
+   n1: 368640 0x112F16: allocate (alloc_traits.h:464)
+    n1: 368640 0x112F16: _M_allocate (stl_vector.h:346)
+     n1: 368640 0x112F16: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:440)
+      n1: 368640 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+       n1: 368640 0x112205: push_back (stl_vector.h:1204)
+        n2: 368640 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+         n0: 327680 0x10F11C: main (main.cpp:138)
+         n0: 40960 0x10F129: main (main.cpp:139)
+ n1: 105600 0x111CC3: allocate (new_allocator.h:127)
+  n1: 105600 0x111CC3: allocate (allocator.h:185)
+   n1: 105600 0x111CC3: allocate (alloc_traits.h:464)
+    n1: 105600 0x111CC3: _M_allocate (stl_vector.h:346)
+     n1: 105600 0x111CC3: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<double const*, std::vector<double> > > (stl_vector.h:1511)
+      n5: 105600 0x111CC3: std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&) [clone .isra.0] (vector.tcc:226)
+       n1: 36864 0x112D8A: Matrix (matrix.h:379)
+        n1: 36864 0x112D8A: _Head_base (tuple:195)
+         n1: 36864 0x112D8A: _Tuple_impl (tuple:444)
+          n1: 36864 0x112D8A: _Tuple_impl (tuple:295)
+           n1: 36864 0x112D8A: tuple (tuple:1092)
+            n1: 36864 0x112D8A: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+             n1: 36864 0x112D8A: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+              n1: 36864 0x112D8A: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+               n1: 36864 0x112D8A: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+                n1: 36864 0x112D8A: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                 n1: 36864 0x112D8A: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                  n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                   n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                    n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                     n0: 32768 0x10F11C: main (main.cpp:138)
+                     n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 36864 0x112DB9: Matrix (matrix.h:379)
+        n1: 36864 0x112DB9: _Head_base (tuple:195)
+         n1: 36864 0x112DB9: _Tuple_impl (tuple:295)
+          n1: 36864 0x112DB9: tuple (tuple:1092)
+           n1: 36864 0x112DB9: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+            n1: 36864 0x112DB9: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+             n1: 36864 0x112DB9: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+              n1: 36864 0x112DB9: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+               n1: 36864 0x112DB9: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                n1: 36864 0x112DB9: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                 n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                  n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                   n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                    n0: 32768 0x10F11C: main (main.cpp:138)
+                    n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x112049: Matrix (matrix.h:379)
+        n1: 15904 0x112049: _Head_base (tuple:196)
+         n1: 15904 0x112049: _Tuple_impl (tuple:456)
+          n1: 15904 0x112049: _Tuple_impl (tuple:301)
+           n1: 15904 0x112049: tuple (tuple:1094)
+            n1: 15904 0x112049: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+             n1: 15904 0x112049: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+              n1: 15904 0x112049: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+               n1: 15904 0x112049: push_back (stl_vector.h:1204)
+                n2: 15904 0x112049: generateQuarterCircleData(int) (main.cpp:33)
+                 n0: 15216 0x10F11C: main (main.cpp:138)
+                 n0: 688 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x11207D: Matrix (matrix.h:379)
+        n1: 15904 0x11207D: _Head_base (tuple:196)
+         n1: 15904 0x11207D: _Tuple_impl (tuple:301)
+          n1: 15904 0x11207D: tuple (tuple:1094)
+           n1: 15904 0x11207D: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+            n1: 15904 0x11207D: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+             n1: 15904 0x11207D: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+              n1: 15904 0x11207D: push_back (stl_vector.h:1204)
+               n2: 15904 0x11207D: generateQuarterCircleData(int) (main.cpp:33)
+                n0: 15216 0x10F11C: main (main.cpp:138)
+                n0: 688 in 1 place, below massif's threshold (1.00%)
+       n0: 64 in 7 places, all below massif's threshold (1.00%)
+ n1: 72704 0x4900979: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n0: 72704 0x40202E9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+ n0: 5852 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=19
+#-----------
+time=1584393633
+mem_heap_B=553100
+mem_heap_extra_B=53636
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=20
+#-----------
+time=1642749894
+mem_heap_B=551180
+mem_heap_extra_B=53276
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=21
+#-----------
+time=1720558064
+mem_heap_B=552612
+mem_heap_extra_B=53500
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=22
+#-----------
+time=1837271965
+mem_heap_B=551084
+mem_heap_extra_B=53252
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=23
+#-----------
+time=1915081782
+mem_heap_B=552356
+mem_heap_extra_B=53452
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=24
+#-----------
+time=1992890916
+mem_heap_B=552212
+mem_heap_extra_B=53372
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=25
+#-----------
+time=2109605286
+mem_heap_B=552556
+mem_heap_extra_B=53476
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=26
+#-----------
+time=2167961365
+mem_heap_B=552516
+mem_heap_extra_B=53484
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=27
+#-----------
+time=2245770171
+mem_heap_B=551116
+mem_heap_extra_B=53300
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=28
+#-----------
+time=2323578638
+mem_heap_B=552692
+mem_heap_extra_B=53484
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=29
+#-----------
+time=2427323485
+mem_heap_B=552372
+mem_heap_extra_B=53420
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=30
+#-----------
+time=2492164022
+mem_heap_B=552428
+mem_heap_extra_B=53428
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=31
+#-----------
+time=2557005377
+mem_heap_B=552388
+mem_heap_extra_B=53468
+mem_stacks_B=0
+heap_tree=detailed
+n4: 552388 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 368640 0x112F16: allocate (new_allocator.h:127)
+  n1: 368640 0x112F16: allocate (allocator.h:185)
+   n1: 368640 0x112F16: allocate (alloc_traits.h:464)
+    n1: 368640 0x112F16: _M_allocate (stl_vector.h:346)
+     n1: 368640 0x112F16: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:440)
+      n1: 368640 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+       n1: 368640 0x112205: push_back (stl_vector.h:1204)
+        n2: 368640 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+         n0: 327680 0x10F11C: main (main.cpp:138)
+         n0: 40960 0x10F129: main (main.cpp:139)
+ n1: 105600 0x111CC3: allocate (new_allocator.h:127)
+  n1: 105600 0x111CC3: allocate (allocator.h:185)
+   n1: 105600 0x111CC3: allocate (alloc_traits.h:464)
+    n1: 105600 0x111CC3: _M_allocate (stl_vector.h:346)
+     n1: 105600 0x111CC3: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<double const*, std::vector<double> > > (stl_vector.h:1511)
+      n5: 105600 0x111CC3: std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&) [clone .isra.0] (vector.tcc:226)
+       n1: 36864 0x112D8A: Matrix (matrix.h:379)
+        n1: 36864 0x112D8A: _Head_base (tuple:195)
+         n1: 36864 0x112D8A: _Tuple_impl (tuple:444)
+          n1: 36864 0x112D8A: _Tuple_impl (tuple:295)
+           n1: 36864 0x112D8A: tuple (tuple:1092)
+            n1: 36864 0x112D8A: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+             n1: 36864 0x112D8A: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+              n1: 36864 0x112D8A: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+               n1: 36864 0x112D8A: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+                n1: 36864 0x112D8A: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                 n1: 36864 0x112D8A: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                  n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                   n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                    n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                     n0: 32768 0x10F11C: main (main.cpp:138)
+                     n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 36864 0x112DB9: Matrix (matrix.h:379)
+        n1: 36864 0x112DB9: _Head_base (tuple:195)
+         n1: 36864 0x112DB9: _Tuple_impl (tuple:295)
+          n1: 36864 0x112DB9: tuple (tuple:1092)
+           n1: 36864 0x112DB9: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+            n1: 36864 0x112DB9: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+             n1: 36864 0x112DB9: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+              n1: 36864 0x112DB9: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+               n1: 36864 0x112DB9: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                n1: 36864 0x112DB9: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                 n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                  n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                   n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                    n0: 32768 0x10F11C: main (main.cpp:138)
+                    n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x112049: Matrix (matrix.h:379)
+        n1: 15904 0x112049: _Head_base (tuple:196)
+         n1: 15904 0x112049: _Tuple_impl (tuple:456)
+          n1: 15904 0x112049: _Tuple_impl (tuple:301)
+           n1: 15904 0x112049: tuple (tuple:1094)
+            n1: 15904 0x112049: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+             n1: 15904 0x112049: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+              n1: 15904 0x112049: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+               n1: 15904 0x112049: push_back (stl_vector.h:1204)
+                n2: 15904 0x112049: generateQuarterCircleData(int) (main.cpp:33)
+                 n0: 15216 0x10F11C: main (main.cpp:138)
+                 n0: 688 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x11207D: Matrix (matrix.h:379)
+        n1: 15904 0x11207D: _Head_base (tuple:196)
+         n1: 15904 0x11207D: _Tuple_impl (tuple:301)
+          n1: 15904 0x11207D: tuple (tuple:1094)
+           n1: 15904 0x11207D: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+            n1: 15904 0x11207D: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+             n1: 15904 0x11207D: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+              n1: 15904 0x11207D: push_back (stl_vector.h:1204)
+               n2: 15904 0x11207D: generateQuarterCircleData(int) (main.cpp:33)
+                n0: 15216 0x10F11C: main (main.cpp:138)
+                n0: 688 in 1 place, below massif's threshold (1.00%)
+       n0: 64 in 7 places, all below massif's threshold (1.00%)
+ n1: 72704 0x4900979: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n0: 72704 0x40202E9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+ n0: 5444 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=32
+#-----------
+time=2621845585
+mem_heap_B=552612
+mem_heap_extra_B=53468
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=33
+#-----------
+time=2719106814
+mem_heap_B=552668
+mem_heap_extra_B=53508
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=34
+#-----------
+time=2783947513
+mem_heap_B=552724
+mem_heap_extra_B=53532
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=35
+#-----------
+time=2848788094
+mem_heap_B=552964
+mem_heap_extra_B=53596
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=36
+#-----------
+time=2946049357
+mem_heap_B=552564
+mem_heap_extra_B=53484
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=37
+#-----------
+time=3010890602
+mem_heap_B=552212
+mem_heap_extra_B=53428
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=38
+#-----------
+time=3075730853
+mem_heap_B=550940
+mem_heap_extra_B=53196
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=39
+#-----------
+time=3172991794
+mem_heap_B=553060
+mem_heap_extra_B=53620
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=40
+#-----------
+time=3302672343
+mem_heap_B=552516
+mem_heap_extra_B=53484
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=41
+#-----------
+time=3367513222
+mem_heap_B=552804
+mem_heap_extra_B=53556
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=42
+#-----------
+time=3464774120
+mem_heap_B=551868
+mem_heap_extra_B=53316
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=43
+#-----------
+time=3529615265
+mem_heap_B=552708
+mem_heap_extra_B=53508
+mem_stacks_B=0
+heap_tree=detailed
+n4: 552708 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 368640 0x112F16: allocate (new_allocator.h:127)
+  n1: 368640 0x112F16: allocate (allocator.h:185)
+   n1: 368640 0x112F16: allocate (alloc_traits.h:464)
+    n1: 368640 0x112F16: _M_allocate (stl_vector.h:346)
+     n1: 368640 0x112F16: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:440)
+      n1: 368640 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+       n1: 368640 0x112205: push_back (stl_vector.h:1204)
+        n2: 368640 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+         n0: 327680 0x10F11C: main (main.cpp:138)
+         n0: 40960 0x10F129: main (main.cpp:139)
+ n1: 105600 0x111CC3: allocate (new_allocator.h:127)
+  n1: 105600 0x111CC3: allocate (allocator.h:185)
+   n1: 105600 0x111CC3: allocate (alloc_traits.h:464)
+    n1: 105600 0x111CC3: _M_allocate (stl_vector.h:346)
+     n1: 105600 0x111CC3: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<double const*, std::vector<double> > > (stl_vector.h:1511)
+      n5: 105600 0x111CC3: std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&) [clone .isra.0] (vector.tcc:226)
+       n1: 36864 0x112D8A: Matrix (matrix.h:379)
+        n1: 36864 0x112D8A: _Head_base (tuple:195)
+         n1: 36864 0x112D8A: _Tuple_impl (tuple:444)
+          n1: 36864 0x112D8A: _Tuple_impl (tuple:295)
+           n1: 36864 0x112D8A: tuple (tuple:1092)
+            n1: 36864 0x112D8A: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+             n1: 36864 0x112D8A: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+              n1: 36864 0x112D8A: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+               n1: 36864 0x112D8A: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+                n1: 36864 0x112D8A: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                 n1: 36864 0x112D8A: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                  n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                   n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                    n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                     n0: 32768 0x10F11C: main (main.cpp:138)
+                     n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 36864 0x112DB9: Matrix (matrix.h:379)
+        n1: 36864 0x112DB9: _Head_base (tuple:195)
+         n1: 36864 0x112DB9: _Tuple_impl (tuple:295)
+          n1: 36864 0x112DB9: tuple (tuple:1092)
+           n1: 36864 0x112DB9: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+            n1: 36864 0x112DB9: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+             n1: 36864 0x112DB9: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+              n1: 36864 0x112DB9: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+               n1: 36864 0x112DB9: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                n1: 36864 0x112DB9: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                 n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                  n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                   n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                    n0: 32768 0x10F11C: main (main.cpp:138)
+                    n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x112049: Matrix (matrix.h:379)
+        n1: 15904 0x112049: _Head_base (tuple:196)
+         n1: 15904 0x112049: _Tuple_impl (tuple:456)
+          n1: 15904 0x112049: _Tuple_impl (tuple:301)
+           n1: 15904 0x112049: tuple (tuple:1094)
+            n1: 15904 0x112049: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+             n1: 15904 0x112049: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+              n1: 15904 0x112049: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+               n1: 15904 0x112049: push_back (stl_vector.h:1204)
+                n2: 15904 0x112049: generateQuarterCircleData(int) (main.cpp:33)
+                 n0: 15216 0x10F11C: main (main.cpp:138)
+                 n0: 688 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x11207D: Matrix (matrix.h:379)
+        n1: 15904 0x11207D: _Head_base (tuple:196)
+         n1: 15904 0x11207D: _Tuple_impl (tuple:301)
+          n1: 15904 0x11207D: tuple (tuple:1094)
+           n1: 15904 0x11207D: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+            n1: 15904 0x11207D: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+             n1: 15904 0x11207D: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+              n1: 15904 0x11207D: push_back (stl_vector.h:1204)
+               n2: 15904 0x11207D: generateQuarterCircleData(int) (main.cpp:33)
+                n0: 15216 0x10F11C: main (main.cpp:138)
+                n0: 688 in 1 place, below massif's threshold (1.00%)
+       n0: 64 in 7 places, all below massif's threshold (1.00%)
+ n1: 72704 0x4900979: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n0: 72704 0x40202E9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+ n0: 5764 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=44
+#-----------
+time=3594457024
+mem_heap_B=552524
+mem_heap_extra_B=53468
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=45
+#-----------
+time=3691717770
+mem_heap_B=552556
+mem_heap_extra_B=53476
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=46
+#-----------
+time=3756558033
+mem_heap_B=552428
+mem_heap_extra_B=53436
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=47
+#-----------
+time=3853818974
+mem_heap_B=552532
+mem_heap_extra_B=53476
+mem_stacks_B=0
+heap_tree=detailed
+n4: 552532 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 368640 0x112F16: allocate (new_allocator.h:127)
+  n1: 368640 0x112F16: allocate (allocator.h:185)
+   n1: 368640 0x112F16: allocate (alloc_traits.h:464)
+    n1: 368640 0x112F16: _M_allocate (stl_vector.h:346)
+     n1: 368640 0x112F16: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:440)
+      n1: 368640 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+       n1: 368640 0x112205: push_back (stl_vector.h:1204)
+        n2: 368640 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+         n0: 327680 0x10F11C: main (main.cpp:138)
+         n0: 40960 0x10F129: main (main.cpp:139)
+ n1: 105600 0x111CC3: allocate (new_allocator.h:127)
+  n1: 105600 0x111CC3: allocate (allocator.h:185)
+   n1: 105600 0x111CC3: allocate (alloc_traits.h:464)
+    n1: 105600 0x111CC3: _M_allocate (stl_vector.h:346)
+     n1: 105600 0x111CC3: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<double const*, std::vector<double> > > (stl_vector.h:1511)
+      n5: 105600 0x111CC3: std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&) [clone .isra.0] (vector.tcc:226)
+       n1: 36864 0x112D8A: Matrix (matrix.h:379)
+        n1: 36864 0x112D8A: _Head_base (tuple:195)
+         n1: 36864 0x112D8A: _Tuple_impl (tuple:444)
+          n1: 36864 0x112D8A: _Tuple_impl (tuple:295)
+           n1: 36864 0x112D8A: tuple (tuple:1092)
+            n1: 36864 0x112D8A: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+             n1: 36864 0x112D8A: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+              n1: 36864 0x112D8A: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+               n1: 36864 0x112D8A: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+                n1: 36864 0x112D8A: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                 n1: 36864 0x112D8A: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                  n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                   n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                    n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                     n0: 32768 0x10F11C: main (main.cpp:138)
+                     n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 36864 0x112DB9: Matrix (matrix.h:379)
+        n1: 36864 0x112DB9: _Head_base (tuple:195)
+         n1: 36864 0x112DB9: _Tuple_impl (tuple:295)
+          n1: 36864 0x112DB9: tuple (tuple:1092)
+           n1: 36864 0x112DB9: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+            n1: 36864 0x112DB9: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+             n1: 36864 0x112DB9: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+              n1: 36864 0x112DB9: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+               n1: 36864 0x112DB9: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                n1: 36864 0x112DB9: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                 n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                  n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                   n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                    n0: 32768 0x10F11C: main (main.cpp:138)
+                    n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x112049: Matrix (matrix.h:379)
+        n1: 15904 0x112049: _Head_base (tuple:196)
+         n1: 15904 0x112049: _Tuple_impl (tuple:456)
+          n1: 15904 0x112049: _Tuple_impl (tuple:301)
+           n1: 15904 0x112049: tuple (tuple:1094)
+            n1: 15904 0x112049: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+             n1: 15904 0x112049: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+              n1: 15904 0x112049: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+               n1: 15904 0x112049: push_back (stl_vector.h:1204)
+                n2: 15904 0x112049: generateQuarterCircleData(int) (main.cpp:33)
+                 n0: 15216 0x10F11C: main (main.cpp:138)
+                 n0: 688 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x11207D: Matrix (matrix.h:379)
+        n1: 15904 0x11207D: _Head_base (tuple:196)
+         n1: 15904 0x11207D: _Tuple_impl (tuple:301)
+          n1: 15904 0x11207D: tuple (tuple:1094)
+           n1: 15904 0x11207D: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+            n1: 15904 0x11207D: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+             n1: 15904 0x11207D: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+              n1: 15904 0x11207D: push_back (stl_vector.h:1204)
+               n2: 15904 0x11207D: generateQuarterCircleData(int) (main.cpp:33)
+                n0: 15216 0x10F11C: main (main.cpp:138)
+                n0: 688 in 1 place, below massif's threshold (1.00%)
+       n0: 64 in 7 places, all below massif's threshold (1.00%)
+ n1: 72704 0x4900979: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n0: 72704 0x40202E9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+ n0: 5588 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=48
+#-----------
+time=3918659236
+mem_heap_B=552404
+mem_heap_extra_B=53484
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=49
+#-----------
+time=3983499898
+mem_heap_B=552740
+mem_heap_extra_B=53484
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=50
+#-----------
+time=4041856000
+mem_heap_B=552356
+mem_heap_extra_B=53420
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=51
+#-----------
+time=4100212181
+mem_heap_B=550780
+mem_heap_extra_B=53132
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=52
+#-----------
+time=4158568305
+mem_heap_B=552308
+mem_heap_extra_B=53396
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=53
+#-----------
+time=4216924518
+mem_heap_B=552356
+mem_heap_extra_B=53484
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=54
+#-----------
+time=4275280965
+mem_heap_B=552340
+mem_heap_extra_B=53428
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=55
+#-----------
+time=4333637720
+mem_heap_B=552572
+mem_heap_extra_B=53484
+mem_stacks_B=0
+heap_tree=detailed
+n4: 552572 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 368640 0x112F16: allocate (new_allocator.h:127)
+  n1: 368640 0x112F16: allocate (allocator.h:185)
+   n1: 368640 0x112F16: allocate (alloc_traits.h:464)
+    n1: 368640 0x112F16: _M_allocate (stl_vector.h:346)
+     n1: 368640 0x112F16: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:440)
+      n1: 368640 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+       n1: 368640 0x112205: push_back (stl_vector.h:1204)
+        n2: 368640 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+         n0: 327680 0x10F11C: main (main.cpp:138)
+         n0: 40960 0x10F129: main (main.cpp:139)
+ n1: 105600 0x111CC3: allocate (new_allocator.h:127)
+  n1: 105600 0x111CC3: allocate (allocator.h:185)
+   n1: 105600 0x111CC3: allocate (alloc_traits.h:464)
+    n1: 105600 0x111CC3: _M_allocate (stl_vector.h:346)
+     n1: 105600 0x111CC3: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<double const*, std::vector<double> > > (stl_vector.h:1511)
+      n5: 105600 0x111CC3: std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&) [clone .isra.0] (vector.tcc:226)
+       n1: 36864 0x112D8A: Matrix (matrix.h:379)
+        n1: 36864 0x112D8A: _Head_base (tuple:195)
+         n1: 36864 0x112D8A: _Tuple_impl (tuple:444)
+          n1: 36864 0x112D8A: _Tuple_impl (tuple:295)
+           n1: 36864 0x112D8A: tuple (tuple:1092)
+            n1: 36864 0x112D8A: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+             n1: 36864 0x112D8A: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+              n1: 36864 0x112D8A: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+               n1: 36864 0x112D8A: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+                n1: 36864 0x112D8A: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                 n1: 36864 0x112D8A: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                  n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                   n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                    n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                     n0: 32768 0x10F11C: main (main.cpp:138)
+                     n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 36864 0x112DB9: Matrix (matrix.h:379)
+        n1: 36864 0x112DB9: _Head_base (tuple:195)
+         n1: 36864 0x112DB9: _Tuple_impl (tuple:295)
+          n1: 36864 0x112DB9: tuple (tuple:1092)
+           n1: 36864 0x112DB9: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+            n1: 36864 0x112DB9: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+             n1: 36864 0x112DB9: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+              n1: 36864 0x112DB9: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+               n1: 36864 0x112DB9: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                n1: 36864 0x112DB9: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                 n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                  n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                   n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                    n0: 32768 0x10F11C: main (main.cpp:138)
+                    n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x112049: Matrix (matrix.h:379)
+        n1: 15904 0x112049: _Head_base (tuple:196)
+         n1: 15904 0x112049: _Tuple_impl (tuple:456)
+          n1: 15904 0x112049: _Tuple_impl (tuple:301)
+           n1: 15904 0x112049: tuple (tuple:1094)
+            n1: 15904 0x112049: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+             n1: 15904 0x112049: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+              n1: 15904 0x112049: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+               n1: 15904 0x112049: push_back (stl_vector.h:1204)
+                n2: 15904 0x112049: generateQuarterCircleData(int) (main.cpp:33)
+                 n0: 15216 0x10F11C: main (main.cpp:138)
+                 n0: 688 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x11207D: Matrix (matrix.h:379)
+        n1: 15904 0x11207D: _Head_base (tuple:196)
+         n1: 15904 0x11207D: _Tuple_impl (tuple:301)
+          n1: 15904 0x11207D: tuple (tuple:1094)
+           n1: 15904 0x11207D: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+            n1: 15904 0x11207D: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+             n1: 15904 0x11207D: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+              n1: 15904 0x11207D: push_back (stl_vector.h:1204)
+               n2: 15904 0x11207D: generateQuarterCircleData(int) (main.cpp:33)
+                n0: 15216 0x10F11C: main (main.cpp:138)
+                n0: 688 in 1 place, below massif's threshold (1.00%)
+       n0: 64 in 7 places, all below massif's threshold (1.00%)
+ n1: 72704 0x4900979: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n0: 72704 0x40202E9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+ n0: 5628 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=56
+#-----------
+time=4391994425
+mem_heap_B=552772
+mem_heap_extra_B=53548
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=57
+#-----------
+time=4450350504
+mem_heap_B=552164
+mem_heap_extra_B=53372
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=58
+#-----------
+time=4508706682
+mem_heap_B=550780
+mem_heap_extra_B=53132
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=59
+#-----------
+time=4567062940
+mem_heap_B=552868
+mem_heap_extra_B=53572
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=60
+#-----------
+time=4625419027
+mem_heap_B=552164
+mem_heap_extra_B=53388
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=61
+#-----------
+time=4683775220
+mem_heap_B=552348
+mem_heap_extra_B=53420
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=62
+#-----------
+time=4742131487
+mem_heap_B=552724
+mem_heap_extra_B=53532
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=63
+#-----------
+time=4800488967
+mem_heap_B=552828
+mem_heap_extra_B=53564
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=64
+#-----------
+time=4858845382
+mem_heap_B=552508
+mem_heap_extra_B=53460
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=65
+#-----------
+time=4917201461
+mem_heap_B=550892
+mem_heap_extra_B=53196
+mem_stacks_B=0
+heap_tree=detailed
+n4: 550892 (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+ n1: 368640 0x112F16: allocate (new_allocator.h:127)
+  n1: 368640 0x112F16: allocate (allocator.h:185)
+   n1: 368640 0x112F16: allocate (alloc_traits.h:464)
+    n1: 368640 0x112F16: _M_allocate (stl_vector.h:346)
+     n1: 368640 0x112F16: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:440)
+      n1: 368640 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+       n1: 368640 0x112205: push_back (stl_vector.h:1204)
+        n2: 368640 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+         n0: 327680 0x10F11C: main (main.cpp:138)
+         n0: 40960 0x10F129: main (main.cpp:139)
+ n1: 105600 0x111CC3: allocate (new_allocator.h:127)
+  n1: 105600 0x111CC3: allocate (allocator.h:185)
+   n1: 105600 0x111CC3: allocate (alloc_traits.h:464)
+    n1: 105600 0x111CC3: _M_allocate (stl_vector.h:346)
+     n1: 105600 0x111CC3: _M_allocate_and_copy<__gnu_cxx::__normal_iterator<double const*, std::vector<double> > > (stl_vector.h:1511)
+      n5: 105600 0x111CC3: std::vector<double, std::allocator<double> >::operator=(std::vector<double, std::allocator<double> > const&) [clone .isra.0] (vector.tcc:226)
+       n1: 36864 0x112D8A: Matrix (matrix.h:379)
+        n1: 36864 0x112D8A: _Head_base (tuple:195)
+         n1: 36864 0x112D8A: _Tuple_impl (tuple:444)
+          n1: 36864 0x112D8A: _Tuple_impl (tuple:295)
+           n1: 36864 0x112D8A: tuple (tuple:1092)
+            n1: 36864 0x112D8A: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+             n1: 36864 0x112D8A: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+              n1: 36864 0x112D8A: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+               n1: 36864 0x112D8A: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+                n1: 36864 0x112D8A: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                 n1: 36864 0x112D8A: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                  n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                   n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                    n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                     n0: 32768 0x10F11C: main (main.cpp:138)
+                     n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 36864 0x112DB9: Matrix (matrix.h:379)
+        n1: 36864 0x112DB9: _Head_base (tuple:195)
+         n1: 36864 0x112DB9: _Tuple_impl (tuple:295)
+          n1: 36864 0x112DB9: tuple (tuple:1092)
+           n1: 36864 0x112DB9: _Construct<std::tuple<Math::Matrix, Math::Matrix>, const std::tuple<Math::Matrix, Math::Matrix>&> (stl_construct.h:119)
+            n1: 36864 0x112DB9: __uninit_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:92)
+             n1: 36864 0x112DB9: uninitialized_copy<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*> (stl_uninitialized.h:151)
+              n1: 36864 0x112DB9: __uninitialized_copy_a<const std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix> > (stl_uninitialized.h:333)
+               n1: 36864 0x112DB9: __uninitialized_move_if_noexcept_a<std::tuple<Math::Matrix, Math::Matrix>*, std::tuple<Math::Matrix, Math::Matrix>*, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > (stl_uninitialized.h:355)
+                n1: 36864 0x112DB9: void std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > >::_M_realloc_insert<std::tuple<Math::Matrix, Math::Matrix> >(__gnu_cxx::__normal_iterator<std::tuple<Math::Matrix, Math::Matrix>*, std::vector<std::tuple<Math::Matrix, Math::Matrix>, std::allocator<std::tuple<Math::Matrix, Math::Matrix> > > >, std::tuple<Math::Matrix, Math::Matrix>&&) (vector.tcc:474)
+                 n1: 36864 0x112205: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:121)
+                  n1: 36864 0x112205: push_back (stl_vector.h:1204)
+                   n2: 36864 0x112205: generateQuarterCircleData(int) (main.cpp:33)
+                    n0: 32768 0x10F11C: main (main.cpp:138)
+                    n0: 4096 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x112049: Matrix (matrix.h:379)
+        n1: 15904 0x112049: _Head_base (tuple:196)
+         n1: 15904 0x112049: _Tuple_impl (tuple:456)
+          n1: 15904 0x112049: _Tuple_impl (tuple:301)
+           n1: 15904 0x112049: tuple (tuple:1094)
+            n1: 15904 0x112049: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+             n1: 15904 0x112049: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+              n1: 15904 0x112049: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+               n1: 15904 0x112049: push_back (stl_vector.h:1204)
+                n2: 15904 0x112049: generateQuarterCircleData(int) (main.cpp:33)
+                 n0: 15216 0x10F11C: main (main.cpp:138)
+                 n0: 688 in 1 place, below massif's threshold (1.00%)
+       n1: 15904 0x11207D: Matrix (matrix.h:379)
+        n1: 15904 0x11207D: _Head_base (tuple:196)
+         n1: 15904 0x11207D: _Tuple_impl (tuple:301)
+          n1: 15904 0x11207D: tuple (tuple:1094)
+           n1: 15904 0x11207D: construct_at<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (stl_construct.h:97)
+            n1: 15904 0x11207D: construct<std::tuple<Math::Matrix, Math::Matrix>, std::tuple<Math::Matrix, Math::Matrix> > (alloc_traits.h:518)
+             n1: 15904 0x11207D: emplace_back<std::tuple<Math::Matrix, Math::Matrix> > (vector.tcc:115)
+              n1: 15904 0x11207D: push_back (stl_vector.h:1204)
+               n2: 15904 0x11207D: generateQuarterCircleData(int) (main.cpp:33)
+                n0: 15216 0x10F11C: main (main.cpp:138)
+                n0: 688 in 1 place, below massif's threshold (1.00%)
+       n0: 64 in 7 places, all below massif's threshold (1.00%)
+ n1: 72704 0x4900979: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+  n1: 72704 0x400647D: call_init.part.0 (dl-init.c:70)
+   n1: 72704 0x4006567: call_init (dl-init.c:33)
+    n1: 72704 0x4006567: _dl_init (dl-init.c:117)
+     n0: 72704 0x40202E9: ??? (in /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2)
+ n0: 3948 in 67 places, all below massif's threshold (1.00%)
+#-----------
+snapshot=66
+#-----------
+time=4975557929
+mem_heap_B=552796
+mem_heap_extra_B=53540
+mem_stacks_B=0
+heap_tree=empty
+#-----------
+snapshot=67
+#-----------
+time=5033914056
+mem_heap_B=552212
+mem_heap_extra_B=53356
+mem_stacks_B=0
+heap_tree=empty

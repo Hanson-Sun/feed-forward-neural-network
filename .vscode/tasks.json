@@ -6,6 +6,8 @@
             "command": "C:\\cygwin64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
+                "-std=c++20",
+                "-g",
                 "-Ofast",
                 "./**.cpp",
                 "-o",

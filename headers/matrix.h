@@ -51,6 +51,16 @@ namespace Math
             return threads.size();
         }
 
+        /**
+         * @brief Get the number of tasks in queue
+         *
+         * @return int
+         */
+        int getQueueSize() const
+        {
+            return tasks.size();
+        }
+
         // im gonna be real honest, i barely know how this works
         /**
          * @brief adds a task to the queue for processes by the threads
@@ -66,12 +76,20 @@ namespace Math
             auto wrapper = std::make_shared<std::packaged_task<decltype(task())()>>(std::move(task));
             {
                 std::unique_lock<std::mutex> lock{eventMutex};
-                tasks.emplace([=]
+                tasks.emplace([=, this]
                               { (*wrapper)(); });
             }
 
+            // remainingTasks.fetch_add(1);
             event.notify_one();
             return wrapper->get_future();
+        }
+
+        void waitUntilEmpty()
+        {
+            std::unique_lock<std::mutex> lock(eventMutex);
+            event.wait(lock, [this]
+                       { return remainingTasks == 0; });
         }
 
     private:
@@ -87,6 +105,7 @@ namespace Math
         bool stopping = false;
 
         std::queue<Task> tasks;
+        std::atomic<int> remainingTasks;
 
         /**
          * @brief initialize the threads
@@ -97,7 +116,7 @@ namespace Math
         {
             for (int i = 0; i < numThreads; i++)
             {
-                threads.emplace_back([=]
+                threads.emplace_back([=, this]
                                      {
                 while (true)
                 {
@@ -107,7 +126,7 @@ namespace Math
                         std::unique_lock<std::mutex> lock{eventMutex};
 
                         // blocks current thread from executing unless stopping or non-empty tasks
-                        event.wait(lock, [=] { return stopping || !tasks.empty();});
+                        event.wait(lock, [&] { return stopping || !tasks.empty();});
 
                         // only stop if tasks are completed and notified to stop
                         if (stopping && tasks.empty())
@@ -116,10 +135,19 @@ namespace Math
                         //removes the first task and prepares it
                         task = std::move(tasks.front());
                         tasks.pop();
+                        //remainingTasks.fetch_sub(1);
                     }
 
                     //performs the first task, this is out of scope because it should not be locked by the mutex during execution
-                    task();
+                    try
+                    {
+                        task();
+                    }
+                    catch(const std::exception& e)
+                    {
+                        std::cerr << "ok so my tasks suck " << e.what() << '\n';
+                        throw std::runtime_error("wow this sucks");
+                    }
 
                 } });
             }
@@ -163,45 +191,55 @@ namespace Math
          */
         static void threadPoolProcess(std::function<void(int start, int end)> fn, int rows)
         {
-            std::condition_variable event;
-            std::mutex eventMutex;
-            std::atomic<int> completedTasksCount(0);
-
-            const int MAX_THREADS = Matrix::threadPool.getPoolSize();
-            const int threadNum = std::min({rows, MAX_THREADS});
-
-            int block = std::max(rows / threadNum, 1);
-
-            int start = 0;
-            int end = block;
-
-            for (int i = 0; i < threadNum - 1; i++)
+            try
             {
+                /* code */
 
-                Matrix::threadPool.enqueue([start, end, &fn, &eventMutex, &completedTasksCount, &event]
-                                           {fn(start, end);
+                std::condition_variable event;
+                static std::mutex eventMutex;
+                std::atomic<int> completedTasksCount(0);
+
+                const int MAX_THREADS = Matrix::threadPool.getPoolSize();
+                const int threadNum = std::min({rows, MAX_THREADS});
+
+                int block = std::max(rows / threadNum, 1);
+
+                int start = 0;
+                int end = block;
+
+                for (int i = 0; i < threadNum - 1; i++)
+                {
+
+                    Matrix::threadPool.enqueue([start, end, &fn, &completedTasksCount, &event]
+                                               {fn(start, end);
+                                            {
+                                                std::unique_lock<std::mutex> lock{eventMutex};
+                                                completedTasksCount.fetch_add(1);
+                                                event.notify_one();
+                                            } });
+                    start = end;
+                    end += block;
+                }
+
+                Matrix::threadPool.enqueue([start, rows, &fn, &completedTasksCount, &event]
+                                           {fn(start, rows);
                                         {
-                                            std::unique_lock<std::mutex> lock(eventMutex);
+                                            std::unique_lock<std::mutex> lock{eventMutex};
                                             completedTasksCount.fetch_add(1);
                                             event.notify_one();
                                         } });
-                start = end;
-                end += block;
+
+                {
+                    std::unique_lock<std::mutex> lock{eventMutex};
+                    event.wait(lock, [&completedTasksCount, threadNum]
+                               { return completedTasksCount == threadNum; });
+                    // event.notify_all();
+                }
             }
-
-            Matrix::threadPool.enqueue([start, rows, &fn, &eventMutex, &completedTasksCount, &event]
-                                       {fn(start, rows);
-                                        {
-                                            std::unique_lock<std::mutex> lock(eventMutex);
-                                            completedTasksCount.fetch_add(1);
-                                            event.notify_one();
-                                    } });
-
+            catch (const std::exception &e)
             {
-                std::unique_lock<std::mutex> lock(eventMutex);
-                event.wait(lock, [&completedTasksCount, threadNum]
-                           { return completedTasksCount == threadNum; });
-                event.notify_all();
+                std::cerr << "thread process dies " << e.what() << '\n';
+                throw std::runtime_error("krill myself");
             }
         }
         /**
@@ -241,7 +279,7 @@ namespace Math
 
         /**
          * @brief Construct a new default Matrix object
-         * 
+         *
          */
         Matrix()
         {
@@ -500,9 +538,9 @@ namespace Math
 
         /**
          * @brief gets value of matrix at the specified index (data is flattened)
-         * 
-         * @param i 
-         * @return double 
+         *
+         * @param i
+         * @return double
          */
         double operator[](int i) const
         {
@@ -511,9 +549,9 @@ namespace Math
 
         /**
          * @brief sets value of matrix at the specified index (data is flattened)
-         * 
-         * @param i 
-         * @return double& 
+         *
+         * @param i
+         * @return double&
          */
         double &operator[](int i)
         {
@@ -522,9 +560,9 @@ namespace Math
 
         /**
          * @brief adds matrix
-         * 
-         * @param m 
-         * @return Matrix& 
+         *
+         * @param m
+         * @return Matrix&
          */
         Matrix &operator+=(const Matrix &m)
         {
@@ -541,9 +579,9 @@ namespace Math
 
         /**
          * @brief subtracts matrix
-         * 
-         * @param m 
-         * @return Matrix& 
+         *
+         * @param m
+         * @return Matrix&
          */
         Matrix &operator-=(const Matrix &m)
         {
@@ -560,9 +598,9 @@ namespace Math
 
         /**
          * @brief multiplies a matrix
-         * 
-         * @param m 
-         * @return Matrix& 
+         *
+         * @param m
+         * @return Matrix&
          */
         Matrix &operator*=(const Matrix &m)
         {
@@ -590,9 +628,9 @@ namespace Math
 
         /**
          * @brief adds a double to every element in the matrix
-         * 
-         * @param d 
-         * @return Matrix& 
+         *
+         * @param d
+         * @return Matrix&
          */
         Matrix &operator+=(const double &d)
         {
@@ -604,9 +642,9 @@ namespace Math
 
         /**
          * @brief subtracts a double to every element in the matrix
-         * 
-         * @param d 
-         * @return Matrix& 
+         *
+         * @param d
+         * @return Matrix&
          */
         Matrix &operator-=(const double &d)
         {
@@ -618,9 +656,9 @@ namespace Math
 
         /**
          * @brief multiplies a double to every element in the matrix
-         * 
-         * @param d 
-         * @return Matrix& 
+         *
+         * @param d
+         * @return Matrix&
          */
         Matrix &operator*=(const double &d)
         {
@@ -632,9 +670,9 @@ namespace Math
 
         /**
          * @brief divides a double to every element in the matrix
-         * 
-         * @param d 
-         * @return Matrix& 
+         *
+         * @param d
+         * @return Matrix&
          */
         Matrix &operator/=(const double &d)
         {
@@ -646,10 +684,10 @@ namespace Math
 
         /**
          * @brief performs the dot product between two column or row matrices
-         * 
-         * @param m1 
-         * @param m2 
-         * @return double 
+         *
+         * @param m1
+         * @param m2
+         * @return double
          */
         static double dot(const Matrix &m1, const Matrix &m2)
         {
@@ -668,10 +706,10 @@ namespace Math
 
         /**
          * @brief performs the general inner product between two matrices
-         * 
-         * @param m1 
-         * @param m2 
-         * @return Matrix 
+         *
+         * @param m1
+         * @param m2
+         * @return Matrix
          */
         static Matrix iProd(Matrix m1, const Matrix &m2)
         {
@@ -703,10 +741,10 @@ namespace Math
 
         /**
          * @brief performs the general outer product between two matrices
-         * 
-         * @param m1 
-         * @param m2 
-         * @return Matrix 
+         *
+         * @param m1
+         * @param m2
+         * @return Matrix
          */
         static Matrix oProd(const Matrix &m1, const Matrix &m2)
         {
@@ -715,17 +753,17 @@ namespace Math
             int m2Cols = m2.getCols();
             int m2Rows = m2.getRows();
 
-            if (m1.getCols() != m2.getCols())
+            if (m1Cols != m2Cols)
                 throw std::invalid_argument("Dimension mismatch.");
 
             std::vector<double> v(m1Rows * m2Rows);
 
             threadPoolProcess([&](int start, int end)
                               {
-                              for (int i = start; i < end; i++)
-                                  for (int j = 0; j < m2Rows; j++)
-                                      for (int k = 0; k < m1Cols; k++)
-                                          v[i * m2Rows + j] += m1[i * m1Cols + k] * m2[j * m2Cols + k]; },
+                                for (int i = start; i < end; i++)
+                                    for (int j = 0; j < m2Rows; j++)
+                                        for (int k = 0; k < m1Cols; k++)
+                                            v[i * m2Rows + j] += m1[i * m1Cols + k] * m2[j * m2Cols + k]; },
                               m1Rows);
 
             return Matrix(m1Rows, m2Rows, v);
@@ -733,10 +771,10 @@ namespace Math
 
         /**
          * @brief performs the Hadamard product between two matrices
-         * 
-         * @param m1 
-         * @param m2 
-         * @return Matrix 
+         *
+         * @param m1
+         * @param m2
+         * @return Matrix
          */
         static Matrix hProd(Matrix m1, const Matrix &m2)
         {
@@ -754,10 +792,10 @@ namespace Math
 
         /**
          * @brief returns the sum of two matrices
-         * 
-         * @param mat1 
-         * @param mat2 
-         * @return Matrix 
+         *
+         * @param mat1
+         * @param mat2
+         * @return Matrix
          */
         friend Matrix operator+(Matrix mat1, const Matrix &mat2)
         {
@@ -767,10 +805,10 @@ namespace Math
 
         /**
          * @brief returns the difference of two matrices
-         * 
-         * @param mat1 
-         * @param mat2 
-         * @return Matrix 
+         *
+         * @param mat1
+         * @param mat2
+         * @return Matrix
          */
         friend Matrix operator-(Matrix mat1, const Matrix &mat2)
         {
@@ -780,10 +818,10 @@ namespace Math
 
         /**
          * @brief returns the product of two matrices
-         * 
-         * @param mat1 
-         * @param mat2 
-         * @return Matrix 
+         *
+         * @param mat1
+         * @param mat2
+         * @return Matrix
          */
         friend Matrix operator*(Matrix mat1, const Matrix &mat2)
         {
@@ -793,10 +831,10 @@ namespace Math
 
         /**
          * @brief returns the sum of a matrix and a double
-         * 
-         * @param mat1 
-         * @param d 
-         * @return Matrix 
+         *
+         * @param mat1
+         * @param d
+         * @return Matrix
          */
         friend Matrix operator+(Matrix mat1, const double &d)
         {
@@ -806,10 +844,10 @@ namespace Math
 
         /**
          * @brief returns the difference of a matrix and a double
-         * 
-         * @param mat1 
-         * @param d 
-         * @return Matrix 
+         *
+         * @param mat1
+         * @param d
+         * @return Matrix
          */
         friend Matrix operator-(Matrix mat1, const double &d)
         {
@@ -819,10 +857,10 @@ namespace Math
 
         /**
          * @brief returns the product of a matrix and a double
-         * 
-         * @param mat1 
-         * @param d 
-         * @return Matrix 
+         *
+         * @param mat1
+         * @param d
+         * @return Matrix
          */
         friend Matrix operator*(Matrix mat1, const double &d)
         {
@@ -832,10 +870,10 @@ namespace Math
 
         /**
          * @brief returns the quotient of a matrix and a double
-         * 
-         * @param mat1 
-         * @param d 
-         * @return Matrix 
+         *
+         * @param mat1
+         * @param d
+         * @return Matrix
          */
         friend Matrix operator/(Matrix mat1, const double &d)
         {
@@ -845,8 +883,8 @@ namespace Math
 
         /**
          * @brief serializes the matrix
-         * 
-         * @return std::string 
+         *
+         * @return std::string
          */
         std::string toString() const
         {
@@ -864,10 +902,10 @@ namespace Math
 
         /**
          * @brief overload for std::cout
-         * 
-         * @param out 
-         * @param m 
-         * @return std::ostream& 
+         *
+         * @param out
+         * @param m
+         * @return std::ostream&
          */
         friend std::ostream &operator<<(std::ostream &out, const Matrix &m)
         {
@@ -877,36 +915,36 @@ namespace Math
 
         /**
          * @brief type cast override
-         * 
-         * @return vector<double> 
+         *
+         * @return vector<double>
          */
         operator std::vector<double>() const { return vals; }
 
         /**
          * @brief type cast override
-         * 
-         * @return std::vector<double> 
+         *
+         * @return std::vector<double>
          */
-        operator std::vector<std::vector<double>>() const 
+        operator std::vector<std::vector<double>>() const
         {
             std::vector<std::vector<double>> vv(rows, std::vector<double>(cols));
             int count = 0;
             for (int i = 0; i < size; i++)
             {
-                vv[count][i%cols] = vals[i];
+                vv[count][i % cols] = vals[i];
                 if ((i + 1) % cols == 0)
                     count++;
             }
-            return vv; 
+            return vv;
         }
 
         /**
          * @deprecated
          * @brief for testing
-         * 
-         * @param ogm 
-         * @param m 
-         * @return Matrix 
+         *
+         * @param ogm
+         * @param m
+         * @return Matrix
          */
         static Matrix poolThreaded(const Matrix &ogm, const Matrix &m)
         {
@@ -930,14 +968,14 @@ namespace Math
 
             return Matrix(rows, m.getCols(), v);
         }
-        
+
         /**
          * @deprecated
          * @brief for testing
-         * 
-         * @param ogm 
-         * @param m 
-         * @return Matrix 
+         *
+         * @param ogm
+         * @param m
+         * @return Matrix
          */
         static Matrix simpleThreaded(const Matrix &ogm, const Matrix &m)
         {

@@ -1,0 +1,18 @@
+==652== Massif, a heap profiler
+==652== Copyright (C) 2003-2017, and GNU GPL'd, by Nicholas Nethercote
+==652== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==652== Command: ./dist/mainl.exe
+==652== Parent PID: 171
+==652== 
+==652== 
+==652== Process terminating with default action of signal 2 (SIGINT)
+==652==    at 0x4D17195: __futex_abstimed_wait_common64 (futex-internal.c:57)
+==652==    by 0x4D17195: __futex_abstimed_wait_common (futex-internal.c:87)
+==652==    by 0x4D17195: __futex_abstimed_wait_cancelable64 (futex-internal.c:139)
+==652==    by 0x4D19AC0: __pthread_cond_wait_common (pthread_cond_wait.c:503)
+==652==    by 0x4D19AC0: pthread_cond_wait@@GLIBC_2.3.2 (pthread_cond_wait.c:627)
+==652==    by 0x11094A: Math::ThreadPool::start(unsigned long)::{lambda()#1}::operator()() const (condition_variable:103)
+==652==    by 0x49322B2: ??? (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30)
+==652==    by 0x4D1AB42: start_thread (pthread_create.c:442)
+==652==    by 0x4DABBB3: clone (clone.S:100)
+==652== 

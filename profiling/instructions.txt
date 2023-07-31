@@ -1,0 +1,7 @@
+ill automate this in the future...
+
+g++ -std=c++20  -pg ./**.cpp -o profiling/app
+cd profiling
+./app
+gprof app gmon.out
+gprof app gmon.out > profile.txt

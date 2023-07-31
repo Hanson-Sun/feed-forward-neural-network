@@ -22,6 +22,16 @@ namespace Activation
         return x;
     }
 
+    Math::Matrix Linear::fn(Math::Matrix x)
+    {
+        return x;
+    }
+
+    Math::Matrix Linear::fnDerv(Math::Matrix x)
+    {
+        return Math::Matrix(x.getRows(), x.getCols(), 1);
+    }
+
     Math::Matrix Relu::fn(Math::Matrix x)
     {
 

@@ -85,6 +85,7 @@
         "timer": "cpp",
         "future": "cpp",
         "cinttypes": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "span": "cpp"
     }
 }

@@ -11,9 +11,8 @@ namespace Cost
         Math::Matrix diff = x - y;
         double sum = 0;
         for (int i = 0; i < diff.getSize(); i++)
-        {
             sum += diff[i] * diff[i];
-        }
+
         return sum;
     }
     Math::Matrix L2Cost::funcDx(Math::Matrix x, Math::Matrix y)
@@ -28,16 +27,13 @@ namespace Cost
         {
             double val{};
             if (1 - x[i] <= 0)
-            {
-                val = y[i]*std::log(x[i]);
-            } else if (x[i] <= 0)
-            {
-                val = (1-y[i])*std::log(1 - x[i]);
-            } else {
-                val = y[i]*std::log(x[i]) + (1-y[i])*std::log(1 - x[i]);
-            }
+                val = y[i] * std::log(x[i]);
+            else if (x[i] <= 0)
+                val = (1 - y[i]) * std::log(1 - x[i]);
+            else
+                val = y[i] * std::log(x[i]) + (1 - y[i]) * std::log(1 - x[i]);
 
-            sum += (val > error)? 0 : val;
+            sum += (val > error) ? 0 : val;
         }
         return -sum;
     }
@@ -47,13 +43,13 @@ namespace Cost
         int size = x.getSize();
 
         std::vector<double> v(size);
-        
+
         for (int i = 0; i < size; i++)
         {
             double val = -(y[i] - x[i]) / (x[i] * (1 - x[i]));
-            v[i] = (val > error)? 0 : val;
+            v[i] = (val > error) ? 0 : val;
         }
-        
+
         return Math::Matrix(v);
     }
 }

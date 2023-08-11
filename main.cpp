@@ -54,6 +54,23 @@ std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateLinearData(int len)
     return data;
 }
 
+std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateLinearClass(int len)
+{
+    std::vector<std::tuple<Math::Matrix, Math::Matrix>> data;
+    for (int i = 0; i < len; i++)
+    {
+        double x = static_cast<double>(rand()) / RAND_MAX * 40 - 20;
+        double y = static_cast<double>(rand()) / RAND_MAX * 40 - 20;
+        double z = x + y;
+        Math::Matrix input = Math::Matrix(std::vector<double>{x, y});
+        Math::Matrix output = (z < 10) ? Math::Matrix(std::vector<double>{1, -1}) : Math::Matrix(std::vector<double>{-1, 1});
+
+        data.push_back(std::make_tuple(input, output));
+    }
+
+    return data;
+}
+
 int main()
 {
 
@@ -124,6 +141,20 @@ int main()
 
 #if true
     {
+        FFNN nn(std::vector<int>{2, 10}, new Cost::CrossEntropy(), new Activation::LeakyRelu());
+        nn.addLayer(2, new Activation::Sigmoid());
+        std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateLinearClass(5000);
+        std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateLinearClass(200);
+
+        nn.train(training, 250, 1000, 0.25, testing);
+
+        std::cout << nn.evaluate(testing) << std::endl;
+        nn.print();
+    }
+#endif
+
+#if false
+    {
         srand(10);
 
         FFNN nn(std::vector<int>{2, 4, 4}, new Cost::L2Cost(), new Activation::LeakyRelu());
@@ -135,7 +166,7 @@ int main()
 
         // std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateData(2000);
         // std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateData(300);
-        std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateQuarterCircleData(3000);
+        std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateQuarterCircleData(5000);
         std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateQuarterCircleData(300);
 
         nn.train(training, 300, 2000, 1, testing);

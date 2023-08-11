@@ -1,5 +1,6 @@
 # feed-forward-neural-network
  a little fun with FFNNs in C++. A basic implementation of a FFNN, as an exercise to learn ML along with c++. 
+ This project also utilizes a multi-threaded matrix math library that I created.
 
 ## Current issues
 - (BUG) Terminate is called recursively once a certain amount of memory is reached

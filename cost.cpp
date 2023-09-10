@@ -1,4 +1,3 @@
-
 #include "headers/cost.h"
 #include "headers/matrix.h"
 #include <vector>

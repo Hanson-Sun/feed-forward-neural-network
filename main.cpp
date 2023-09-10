@@ -3,10 +3,11 @@
 #include "headers/matrix.h"
 #include "headers/nn.h"
 #include "headers/read.h"
+#include "headers/constants.h"
 
-std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateData(int len)
+dataset generateData(int len)
 {
-    std::vector<std::tuple<Math::Matrix, Math::Matrix>> data;
+    std::vector<std::pair<Math::Matrix, Math::Matrix>> data;
     for (int i = 0; i < len; i++)
     {
         double x = std::abs(static_cast<double>(rand()) / RAND_MAX);
@@ -14,15 +15,15 @@ std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateData(int len)
         double z = (x) * (x) + (y) * (y)-0.7;
         Math::Matrix input = Math::Matrix(std::vector<double>{x, y});
         Math::Matrix output = (z <= 0) ? Math::Matrix(std::vector<double>{1, 0}) : Math::Matrix(std::vector<double>{0, 1});
-        data.push_back(std::make_tuple(input, output));
+        data.push_back(std::make_pair(input, output));
     }
 
     return data;
 }
 
-std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateQuarterCircleData(int len)
+dataset generateQuarterCircleData(int len)
 {
-    std::vector<std::tuple<Math::Matrix, Math::Matrix>> data;
+    std::vector<std::pair<Math::Matrix, Math::Matrix>> data;
     for (int i = 0; i < len; i++)
     {
         double x = std::abs(static_cast<double>(rand()) / RAND_MAX) * 10;
@@ -30,15 +31,15 @@ std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateQuarterCircleData(in
         double z = (x) * (x) + (y) * (y);
         Math::Matrix input = Math::Matrix(std::vector<double>{x, y});
         Math::Matrix output = (z <= 6.5 * 6.5) ? Math::Matrix(std::vector<double>{1, 0}) : Math::Matrix(std::vector<double>{0, 1});
-        data.push_back(std::make_tuple(input, output));
+        data.push_back(std::make_pair(input, output));
     }
 
     return data;
 }
 
-std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateLinearData(int len)
+dataset generateLinearData(int len)
 {
-    std::vector<std::tuple<Math::Matrix, Math::Matrix>> data;
+    std::vector<std::pair<Math::Matrix, Math::Matrix>> data;
     for (int i = 0; i < len; i++)
     {
         double x = static_cast<double>(rand()) / RAND_MAX * 20 - 10;
@@ -48,15 +49,15 @@ std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateLinearData(int len)
         // Math::Matrix output = (z > 50) ? Math::Matrix(std::vector<double>{2, -2}) : Math::Matrix(std::vector<double>{-2, 2});
         // Math::Matrix output = (z > 10) ? Math::Matrix(std::vector<double>{1}) : Math::Matrix(std::vector<double>{-1});
         Math::Matrix output = Math::Matrix(std::vector<double>{z});
-        data.push_back(std::make_tuple(input, output));
+        data.push_back(std::make_pair(input, output));
     }
 
     return data;
 }
 
-std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateLinearClass(int len)
+dataset generateLinearClass(int len)
 {
-    std::vector<std::tuple<Math::Matrix, Math::Matrix>> data;
+    std::vector<std::pair<Math::Matrix, Math::Matrix>> data;
     for (int i = 0; i < len; i++)
     {
         double x = static_cast<double>(rand()) / RAND_MAX * 40 - 20;
@@ -65,7 +66,7 @@ std::vector<std::tuple<Math::Matrix, Math::Matrix>> generateLinearClass(int len)
         Math::Matrix input = Math::Matrix(std::vector<double>{x, y});
         Math::Matrix output = (z < 10) ? Math::Matrix(std::vector<double>{1, -1}) : Math::Matrix(std::vector<double>{-1, 1});
 
-        data.push_back(std::make_tuple(input, output));
+        data.push_back(std::make_pair(input, output));
     }
 
     return data;
@@ -143,12 +144,12 @@ int main()
     {
         FFNN nn(std::vector<int>{2, 10}, new Cost::CrossEntropy(), new Activation::LeakyRelu());
         nn.addLayer(2, new Activation::Sigmoid());
-        std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateLinearClass(5000);
-        std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateLinearClass(200);
+        dataset training = generateLinearClass(5000);
+        dataset testing = generateLinearClass(200);
 
         nn.train(training, 250, 1000, 0.25, testing);
 
-        std::cout << nn.evaluate(testing) << std::endl;
+        std::cout << nn.evaluate(testing).first << ", " << nn.evaluate(testing).second << std::endl;
         nn.print();
     }
 #endif

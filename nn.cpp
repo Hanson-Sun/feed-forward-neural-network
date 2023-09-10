@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <ctime>
-#include <random>
-#include <tuple>
 #include <algorithm>
 #include <span>
 #include "headers/matrix.h"
@@ -126,69 +124,84 @@ void FFNN::initializeWeightsAndBias(double scaling)
     }
 }
 
+void FFNN::printEval(const dataset_span_const &testSpan)
+{
+    auto eval = evaluate(testSpan);
+    std::cout << "||   Accuracy of "
+              << eval.first
+              << ". With cost "
+              << eval.second
+              << "." << std::endl;
+}
+
 // stochastic mini-batch gradient descent
 // also tests inputs against testing data for accuracy, but is really slow
-void FFNN::train(std::vector<std::tuple<Math::Matrix, Math::Matrix>> &trainingData,
+void FFNN::train(dataset &trainingData,
                  int epochs, int miniBatchSize, double learningRate,
-                 const std::vector<std::tuple<Math::Matrix, Math::Matrix>> &testData)
+                 const dataset_span_const &testData)
 {
     int nTest = (testData.size() != 0) ? testData.size() : 0;
     int n = trainingData.size();
     int size = ((n % miniBatchSize == 0) ? (n / miniBatchSize) : (n / miniBatchSize + 1));
 
-    auto rng = std::default_random_engine{};
+    dataset_span_const testSpan(testData.begin(), testData.end());
+
+    std::default_random_engine rng(std::chrono::system_clock::now().time_since_epoch().count());
     for (int i = 0; i < epochs; i++)
     {
-        // random_unique(trainingData.begin(), trainingData.end(), miniBatchSize);
-
         std::shuffle(trainingData.begin(), trainingData.end(), rng);
 
         for (int j = 0; j < n; j += miniBatchSize)
         {
             auto end = (j + miniBatchSize < n) ? (trainingData.begin() + j + miniBatchSize) : trainingData.end();
-            std::span<std::tuple<Math::Matrix, Math::Matrix>> miniBatchSpan = std::span<std::tuple<Math::Matrix, Math::Matrix>>(trainingData.begin() + j, end);
+            dataset_span miniBatchSpan(trainingData.begin() + j, end);
 
             updateMiniBatch(miniBatchSpan, learningRate);
         }
 
+        std::cout << "Epoch " << i << " completed.   ";
         if (nTest != 0)
-        {
-            std::cout << "Epoch " << i << " completed.  ||  "
-                      << "Accuracy of "
-                      << evaluate(testData)
-                      << ". With cost "
-                      << evaluateCost(testData)
-                      << "." << std::endl;
-        }
-        else
-        {
-            std::cout << "Epoch " << i << " completed." << std::endl;
-        }
+            printEval(testSpan);
 
-#if DEBUG
-        for (auto b : layers)
-        {
-            std::cout << "layer-print " << std::endl;
-            b.print();
-        }
-
-        for (auto v : bias)
-        {
-            std::cout << "b-print " << std::endl;
-            v.print();
-        }
-
-        for (auto v : weights)
-        {
-            std::cout << "w-print " << std::endl;
-            v.print();
-        }
-#endif
+        #if DEBUG
+        print();
+        #endif
     }
 }
 
+void FFNN::train(dataset &data, int epochs, int miniBatchSize, double learningRate, double split)
+{
+    int size = data.size();
+    int trainingSize = std::round(size * split);
+    int testingSize = size - trainingSize;
+    dataset_span testSpan(data.begin() + trainingSize, data.end());
+    std::default_random_engine rng(std::chrono::system_clock::now().time_since_epoch().count());
+
+    for (int i = 0; i < epochs; i++)
+    {
+        std::shuffle(data.begin(), data.begin() + trainingSize, rng);
+
+        for (int j = 0; j < trainingSize; j += miniBatchSize)
+        {
+            auto end = (j + miniBatchSize < trainingSize) ? (data.begin() + j + miniBatchSize) : data.begin() + trainingSize;
+            dataset_span miniBatchSpan(data.begin() + j, end);
+
+            updateMiniBatch(miniBatchSpan, learningRate);
+        }
+
+        std::cout << "Epoch " << i << " completed.   ";
+        if (testingSize != 0)
+            printEval(testSpan);
+
+        #if DEBUG
+        print();
+        #endif
+    }
+}
+
+
 // update weights and bias with back propagation
-void FFNN::updateMiniBatch(const std::span<std::tuple<Math::Matrix, Math::Matrix>> &miniBatch, double learningRate)
+void FFNN::updateMiniBatch(const dataset_span_const &miniBatch, double learningRate)
 {
     std::vector<Math::Matrix> db(bias.size());
     std::vector<Math::Matrix> dw(weights.size());
@@ -201,9 +214,9 @@ void FFNN::updateMiniBatch(const std::span<std::tuple<Math::Matrix, Math::Matrix
     for (int i = 0; i < weights.size(); i++)
         dw[i] = Math::Matrix(weights[i]);
 
-    for (const std::tuple<Math::Matrix, Math::Matrix> &tup : miniBatch)
+    for (const data_pair &tup : miniBatch)
     {
-        std::tuple<std::vector<Math::Matrix>, std::vector<Math::Matrix>> backProp;
+        std::pair<std::vector<Math::Matrix>, std::vector<Math::Matrix>> backProp;
         try
         {
             backProp = backPropagate(std::get<0>(tup), std::get<1>(tup));
@@ -213,8 +226,8 @@ void FFNN::updateMiniBatch(const std::span<std::tuple<Math::Matrix, Math::Matrix
             std::cout << ("Exception occurred at line " + std::to_string(__LINE__) + ": ") << e.what() << std::endl;
             std::runtime_error("Back prop sucks");
         }
-        std::vector<Math::Matrix> ddb = std::get<0>(backProp);
-        std::vector<Math::Matrix> ddw = std::get<1>(backProp);
+        std::vector<Math::Matrix> ddb = backProp.first;
+        std::vector<Math::Matrix> ddw = backProp.second;
 
         for (int i = 0; i < db.size(); i++)
             db[i] += ddb[i];
@@ -253,8 +266,9 @@ Math::Matrix FFNN::feedForward(Math::Matrix input)
     return input;
 }
 
-std::tuple<std::vector<Math::Matrix>, std::vector<Math::Matrix>> FFNN::backPropagate(const Math::Matrix &x, const Math::Matrix &y)
+std::pair<std::vector<Math::Matrix>, std::vector<Math::Matrix>> FFNN::backPropagate(const Math::Matrix &x, const Math::Matrix &y)
 {
+    // do i really need this? or can i directly add to the weights
     std::vector<Math::Matrix> db(bias.size());
     std::vector<Math::Matrix> dw(weights.size());
 
@@ -292,40 +306,46 @@ std::tuple<std::vector<Math::Matrix>, std::vector<Math::Matrix>> FFNN::backPropa
         dw[dw.size() - l] = Math::Matrix::oProd(delta, layers[layers.size() - l - 1]);
     }
 
-    return std::make_tuple(db, dw);
+    return std::make_pair(db, dw);
 }
 
-double FFNN::evaluate(const std::vector<std::tuple<Math::Matrix, Math::Matrix>> &testingData)
+std::pair<double, double> FFNN::evaluate(const dataset_span_const &testingData)
 {
     double correct = 0;
-    for (std::tuple<Math::Matrix, Math::Matrix> tup : testingData)
+    double cost = 0;
+
+    for (const data_pair &tup : testingData)
     {
-        Math::Matrix output = feedForward(std::get<0>(tup));
-        Math::Matrix actual = std::get<1>(tup);
-
-        // output.print();
-        // actual.print();
-
-        std::vector<double> ov = output.getVals();
-        std::vector<double> av = actual.getVals();
-
-        int outputMax = std::distance(ov.begin(), std::max_element(ov.begin(), ov.end()));
-        int actualMax = std::distance(av.begin(), std::max_element(av.begin(), av.end()));
-
-        if (outputMax == actualMax)
-            correct++;
+        evalPair(correct, cost, tup);
     }
-    return correct / testingData.size();
+    return std::pair<double, double>(correct / testingData.size(), cost);
 }
 
-double FFNN::evaluateCost(const std::vector<std::tuple<Math::Matrix, Math::Matrix>> &testingData)
+std::pair<double, double> FFNN::evaluate(const dataset &testingData)
 {
+    double correct = 0;
     double cost = 0;
-    for (std::tuple<Math::Matrix, Math::Matrix> tup : testingData)
+
+    for (const data_pair &tup : testingData)
     {
-        Math::Matrix output = feedForward(std::get<0>(tup));
-        Math::Matrix actual = std::get<1>(tup);
-        cost += costFn->func(actual, output);
+        evalPair(correct, cost, tup);
     }
-    return cost;
+    return std::pair<double, double>(correct / testingData.size(), cost);
+}
+
+void FFNN::evalPair(double &correct, double &cost, const data_pair &tup)
+{
+    Math::Matrix output = feedForward(tup.first);
+    Math::Matrix actual = tup.second;
+
+    cost += costFn->func(actual, output);
+
+    std::vector<double> ov = output.getVals();
+    std::vector<double> av = actual.getVals();
+
+    int outputMax = std::distance(ov.begin(), std::max_element(ov.begin(), ov.end()));
+    int actualMax = std::distance(av.begin(), std::max_element(av.begin(), av.end()));
+
+    if (outputMax == actualMax)
+        correct++;
 }

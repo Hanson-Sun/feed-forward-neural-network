@@ -1,9 +1,9 @@
 #include <iostream>
 #include <tuple>
-#include "headers/matrix.h"
-#include "headers/nn.h"
-#include "headers/read.h"
-#include "headers/constants.h"
+#include "headers/Matrix.h"
+#include "headers/FFNN.h"
+#include "headers/Read.h"
+#include "headers/Constants.h"
 
 dataset generateData(int len)
 {
@@ -93,10 +93,10 @@ int main()
 // data visualization fr.
 #if false
 
-    std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = readData("data/mnist_train.csv", 1);
+    dataset training = readData("data/mnist_train.csv", 1);
     auto data = training[0];
-    auto input = get<0>(data);
-    auto output = get<1>(data);
+    auto input = data.first;
+    auto output = data.first;
 
     output.print();
 
@@ -115,15 +115,15 @@ int main()
 #endif
 #if false
     {
-        std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = readData("data/mnist_train.csv", 3000);
-        std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = readData("data/mnist_test.csv", 300);
+        dataset training = readData("data/mnist_train.csv", 3000);
+        dataset testing = readData("data/mnist_test.csv", 300);
 
-        FFNN nn(std::vector<int>{784, 30},new Cost::L2Cost(), new Activation::LeakyRelu());
+        FFNN nn(std::vector<int>{784, 30},new Cost::CrossEntropy(), new Activation::LeakyRelu());
         nn.addLayer(10, new Activation::Sigmoid());
 
         nn.train(training, 300, 1000, 10, testing);
 
-        std::cout << nn.evaluate(testing) << std::endl;
+        std::cout << nn.evaluate(testing).first << ", " << nn.evaluate(testing).second << std::endl;
     }
 #endif
 
@@ -140,7 +140,7 @@ int main()
     }
 #endif
 
-#if true
+#if false
     {
         FFNN nn(std::vector<int>{2, 10}, new Cost::CrossEntropy(), new Activation::LeakyRelu());
         nn.addLayer(2, new Activation::Sigmoid());
@@ -154,11 +154,11 @@ int main()
     }
 #endif
 
-#if false
+#if true
     {
         srand(10);
 
-        FFNN nn(std::vector<int>{2, 4, 4}, new Cost::L2Cost(), new Activation::LeakyRelu());
+        FFNN nn(std::vector<int>{2, 4, 4}, new Cost::CrossEntropy(), new Activation::LeakyRelu());
         nn.addLayer(2, new Activation::Sigmoid());
 
         nn.print();
@@ -167,12 +167,12 @@ int main()
 
         // std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateData(2000);
         // std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateData(300);
-        std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateQuarterCircleData(5000);
-        std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateQuarterCircleData(300);
+        dataset training = generateQuarterCircleData(5000);
+        dataset testing = generateQuarterCircleData(300);
 
         nn.train(training, 300, 2000, 1, testing);
 
-        std::cout << nn.evaluate(testing) << std::endl;
+        std::cout << nn.evaluate(testing).first << ", " << nn.evaluate(testing).second << std::endl;
     }
 #endif
 

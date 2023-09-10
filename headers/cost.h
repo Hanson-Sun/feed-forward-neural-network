@@ -1,5 +1,5 @@
 #pragma once
-#include "matrix.h"
+#include "Matrix.h"
 #include <vector>
 
 namespace Cost

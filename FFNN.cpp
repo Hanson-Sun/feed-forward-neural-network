@@ -3,10 +3,10 @@
 #include <ctime>
 #include <algorithm>
 #include <span>
-#include "headers/matrix.h"
-#include "headers/cost.h"
-#include "headers/activation.h"
-#include "headers/nn.h"
+#include "headers/Matrix.h"
+#include "headers/Cost.h"
+#include "headers/Activation.h"
+#include "headers/FFNN.h"
 
 #define DEBUG false
 
@@ -18,7 +18,6 @@ FFNN::FFNN(std::vector<int> s, Cost::CostFn *cFn, Activation::ActivationFn *fn)
     costFn = cFn;
     sizes = s;
     int len = s.size();
-    activationFn = fn;
 
     for (int s : sizes)
     {
@@ -27,7 +26,7 @@ FFNN::FFNN(std::vector<int> s, Cost::CostFn *cFn, Activation::ActivationFn *fn)
 
     for (int i = 0; i < s.size(); i++)
     {
-        activationFns.push_back(fn);
+        activationFns.push_back( shared_afn_ptr(fn));
     }
 
     initializeWeightsAndBias();
@@ -35,12 +34,7 @@ FFNN::FFNN(std::vector<int> s, Cost::CostFn *cFn, Activation::ActivationFn *fn)
 
 FFNN::~FFNN()
 {
-    // delete...
-    // for (Activation::ActivationFn* f : activationFns)
-    //     delete f;
-
     activationFns.clear();
-    delete activationFn;
     delete costFn;
 }
 
@@ -92,12 +86,12 @@ void FFNN::addLayer(int size, Activation::ActivationFn *activationFn, int index)
     if (index < 0)
     {
         layers.push_back(Math::Matrix::generateRandom(size, 1, 1));
-        activationFns.push_back(activationFn);
+        activationFns.push_back(shared_afn_ptr(activationFn));
     }
     else
     {
         layers.insert(layers.begin() + index, Math::Matrix::generateRandom(size, 1, 1));
-        activationFns.insert(activationFns.begin() + index, activationFn);
+        activationFns.insert(activationFns.begin() + index, shared_afn_ptr(activationFn));
     }
 
     initializeWeightsAndBias();
@@ -163,9 +157,9 @@ void FFNN::train(dataset &trainingData,
         if (nTest != 0)
             printEval(testSpan);
 
-        #if DEBUG
+#if DEBUG
         print();
-        #endif
+#endif
     }
 }
 
@@ -193,12 +187,11 @@ void FFNN::train(dataset &data, int epochs, int miniBatchSize, double learningRa
         if (testingSize != 0)
             printEval(testSpan);
 
-        #if DEBUG
+#if DEBUG
         print();
-        #endif
+#endif
     }
 }
-
 
 // update weights and bias with back propagation
 void FFNN::updateMiniBatch(const dataset_span_const &miniBatch, double learningRate)
@@ -208,11 +201,11 @@ void FFNN::updateMiniBatch(const dataset_span_const &miniBatch, double learningR
 
     double c = learningRate / miniBatch.size();
 
-    for (int i = 0; i < bias.size(); i++)
-        db[i] = Math::Matrix(bias[i]);
+    // for (int i = 0; i < bias.size(); i++)
+    //     db[i] = Math::Matrix(bias[i]);
 
-    for (int i = 0; i < weights.size(); i++)
-        dw[i] = Math::Matrix(weights[i]);
+    // for (int i = 0; i < weights.size(); i++)
+    //     dw[i] = Math::Matrix(weights[i]);
 
     for (const data_pair &tup : miniBatch)
     {
@@ -229,24 +222,36 @@ void FFNN::updateMiniBatch(const dataset_span_const &miniBatch, double learningR
         std::vector<Math::Matrix> ddb = backProp.first;
         std::vector<Math::Matrix> ddw = backProp.second;
 
+        // for (int i = 0; i < db.size(); i++)
+        //     db[i] += ddb[i];
+
+        // for (int i = 0; i < dw.size(); i++)
+        //     dw[i] += ddw[i];
+
         for (int i = 0; i < db.size(); i++)
-            db[i] += ddb[i];
+        {
+            ddb[i] *= c;
+            bias[i] -= ddb[i];
+        }
 
         for (int i = 0; i < dw.size(); i++)
-            dw[i] += ddw[i];
+        {
+            ddw[i] *= c;
+            weights[i] -= ddw[i];
+        }
     }
 
-    for (int i = 0; i < weights.size(); i++)
-    {
-        dw[i] *= c;
-        weights[i] -= dw[i];
-    }
+    // for (int i = 0; i < weights.size(); i++)
+    // {
+    //     dw[i] *= c;
+    //     weights[i] -= dw[i];
+    // }
 
-    for (int i = 0; i < bias.size(); i++)
-    {
-        db[i] *= c;
-        bias[i] -= db[i];
-    }
+    // for (int i = 0; i < bias.size(); i++)
+    // {
+    //     db[i] *= c;
+    //     bias[i] -= db[i];
+    // }
 
     // std::cout << "c values " << c << std::endl;
     // for (auto v : dw)

@@ -1,7 +1,7 @@
 #include <cmath>
 #include <vector>
-#include "headers/activation.h"
-#include "headers/matrix.h"
+#include "headers/Activation.h"
+#include "headers/Matrix.h"
 
 namespace Activation
 {

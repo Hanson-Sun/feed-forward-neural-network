@@ -5,19 +5,19 @@
 #include <tuple>
 #include <vector>
 #include <cmath>
-#include "headers/matrix.h"
-#include "headers/read.h"
+#include "headers/Matrix.h"
+#include "headers/Read.h"
 
 Math::Matrix generateLabel(int i)
 {
-    std::vector<double> v(10, 0);
+    std::vector<double> v(10, -10);
     v[i] = 1;
     return Math::Matrix(v);
 }
 
-std::vector<std::tuple<Math::Matrix, Math::Matrix>> readData(std::string path, int size)
+dataset readData(std::string path, int size)
 {
-    std::vector<std::tuple<Math::Matrix, Math::Matrix>> data;
+    dataset data;
 
     std::fstream fin;
     // opens an existing csv file or creates a new file.
@@ -41,10 +41,10 @@ std::vector<std::tuple<Math::Matrix, Math::Matrix>> readData(std::string path, i
                 Math::Matrix label = generateLabel((int)std::round(row[0]));
                 row.erase(row.begin());
 
-                // for (double &r : row)
-                //     r /= 255;
+                for (double &r : row)
+                    r /= 1;
                 
-                data.push_back(std::tuple<Math::Matrix, Math::Matrix>(Math::Matrix(row), label));
+                data.push_back(data_pair(Math::Matrix(row), label));
             }
 
             if (count > size)

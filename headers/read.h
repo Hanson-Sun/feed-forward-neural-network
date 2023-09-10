@@ -4,8 +4,9 @@
 #include <sstream>
 #include <tuple>
 #include <vector>
-#include "matrix.h"
+#include "Matrix.h"
+#include "Constants.h"
 
 Math::Matrix generateLabel(int i);
 
-std::vector<std::tuple<Math::Matrix, Math::Matrix>> readData(std::string path, int size);
+dataset readData(std::string path, int size);

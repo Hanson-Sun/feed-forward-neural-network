@@ -5,10 +5,10 @@
 #include <ctime>
 #include <span>
 #include <random>
-#include "matrix.h"
-#include "cost.h"
-#include "activation.h"
-#include "constants.h"
+#include "Matrix.h"
+#include "Cost.h"
+#include "Activation.h"
+#include "Constants.h"
 
 class FFNN
 {
@@ -18,8 +18,8 @@ private:
     Cost::CostFn *costFn;
     std::vector<Math::Matrix> weights;
     std::vector<Math::Matrix> bias;
-    std::vector<Activation::ActivationFn *> activationFns;
-    Activation::ActivationFn *activationFn;
+    std::vector<shared_afn_ptr> activationFns;
+    
     void printEval(const dataset_span_const &testSpan);
     void evalPair(double &correct, double &cost, const data_pair &tup);
 

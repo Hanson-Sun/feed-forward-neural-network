@@ -26,7 +26,7 @@ FFNN::FFNN(std::vector<int> s, Cost::CostFn *cFn, Activation::ActivationFn *fn)
 
     for (int i = 0; i < s.size(); i++)
     {
-        activationFns.push_back( shared_afn_ptr(fn));
+        activationFns.push_back(shared_afn_ptr(fn));
     }
 
     initializeWeightsAndBias();

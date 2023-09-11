@@ -87,5 +87,20 @@
         "cinttypes": "cpp",
         "fstream": "cpp",
         "span": "cpp"
-    }
+    },
+
+    "makefile.configurations": [
+        {
+            "name": "CPP config",
+            "problemMatchers": [
+                "$gcc",
+                "g++",
+                "$msvc"
+            ],
+            "makeArgs": []
+        }
+    ],
+    
+    "makefile.compileCommandsPath": ".vscode/compile_commands.json"
+
 }

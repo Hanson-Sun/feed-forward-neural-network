@@ -115,13 +115,15 @@ int main()
 #endif
 #if false
     {
-        dataset training = readData("data/mnist_train.csv", 3000);
-        dataset testing = readData("data/mnist_test.csv", 300);
+        dataset training = readData("data/mnist_train.csv", 100);
+        dataset testing = readData("data/mnist_test.csv", 10);
 
-        FFNN nn(std::vector<int>{784, 30},new Cost::CrossEntropy(), new Activation::LeakyRelu());
-        nn.addLayer(10, new Activation::Sigmoid());
+        FFNN nn(std::vector<int>{784, 128, 64, 32},new Cost::CrossEntropy(), new Activation::LeakyRelu());
+        nn.addLayer(10, new Activation::Linear());
 
-        nn.train(training, 300, 1000, 10, testing);
+        //nn.print();
+
+        nn.train(training, 300, 100, 0.001, testing);
 
         std::cout << nn.evaluate(testing).first << ", " << nn.evaluate(testing).second << std::endl;
     }
@@ -147,7 +149,7 @@ int main()
         dataset training = generateLinearClass(5000);
         dataset testing = generateLinearClass(200);
 
-        nn.train(training, 250, 1000, 0.25, testing);
+        nn.train(training, 250, 1000, 0.05, testing);
 
         std::cout << nn.evaluate(testing).first << ", " << nn.evaluate(testing).second << std::endl;
         nn.print();
@@ -156,21 +158,20 @@ int main()
 
 #if true
     {
-        srand(10);
 
-        FFNN nn(std::vector<int>{2, 4, 4}, new Cost::CrossEntropy(), new Activation::LeakyRelu());
+        FFNN nn(std::vector<int>{2, 4, 3}, new Cost::CrossEntropy(), new Activation::LeakyRelu());
         nn.addLayer(2, new Activation::Sigmoid());
 
-        nn.print();
+        //nn.print();
         // nn.addLayer(4, new Activation::LeakyRelu(), 0);
-        // nn.print();
+        nn.print();
 
         // std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateData(2000);
         // std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateData(300);
-        dataset training = generateQuarterCircleData(5000);
-        dataset testing = generateQuarterCircleData(300);
+        dataset training = generateQuarterCircleData(1000);
+        dataset testing = generateQuarterCircleData(100);
 
-        nn.train(training, 300, 2000, 1, testing);
+        nn.train(training, 300, 1000, 0.1, testing);
 
         std::cout << nn.evaluate(testing).first << ", " << nn.evaluate(testing).second << std::endl;
     }

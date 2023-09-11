@@ -457,7 +457,7 @@ namespace Math
             int size = rows * cols;
             std::vector<double> v(size, 0.0);
             for (int i = 0; i < size; i++)
-                v[i] = scale * static_cast<double>(rand()) / RAND_MAX;
+                v[i] = scale * (static_cast<double>(rand()) / RAND_MAX * 2 - 1);
             return Matrix(rows, cols, v);
         }
 

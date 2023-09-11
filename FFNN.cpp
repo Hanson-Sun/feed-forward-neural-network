@@ -8,7 +8,7 @@
 #include "headers/Activation.h"
 #include "headers/FFNN.h"
 
-#define DEBUG false
+#define DEBUG true
 
 // minimum two layers, ok it makes sense to initialize weights after everything is added...
 // this might be slow but idgaf tbh
@@ -21,7 +21,7 @@ FFNN::FFNN(std::vector<int> s, Cost::CostFn *cFn, Activation::ActivationFn *fn)
 
     for (int s : sizes)
     {
-        layers.push_back(Math::Matrix::generateRandom(s, 1, 1));
+        layers.push_back(Math::Matrix::generateRandom(s, 1));
     }
 
     for (int i = 0; i < s.size(); i++)
@@ -36,6 +36,23 @@ FFNN::~FFNN()
 {
     activationFns.clear();
     delete costFn;
+}
+
+void FFNN::addLayer(int size, Activation::ActivationFn *activationFn, int index)
+{
+    // ok ill do this later probably
+    if (index < 0)
+    {
+        layers.push_back(Math::Matrix::generateRandom(size, 1));
+        activationFns.push_back(shared_afn_ptr(activationFn));
+    }
+    else
+    {
+        layers.insert(layers.begin() + index, Math::Matrix::generateRandom(size, 1));
+        activationFns.insert(activationFns.begin() + index, shared_afn_ptr(activationFn));
+    }
+
+    initializeWeightsAndBias();
 }
 
 void FFNN::print()
@@ -62,39 +79,6 @@ void FFNN::print()
     }
 
     std::cout << "====== END ======" << std::endl;
-}
-
-// thanks stackoverflow
-template <class BidiIter>
-BidiIter random_unique(BidiIter begin, BidiIter end, size_t num_random)
-{
-    size_t left = std::distance(begin, end);
-    while (num_random--)
-    {
-        BidiIter r = begin;
-        std::advance(r, rand() % left);
-        std::swap(*begin, *r);
-        ++begin;
-        --left;
-    }
-    return begin;
-}
-
-void FFNN::addLayer(int size, Activation::ActivationFn *activationFn, int index)
-{
-    // ok ill do this later probably
-    if (index < 0)
-    {
-        layers.push_back(Math::Matrix::generateRandom(size, 1, 1));
-        activationFns.push_back(shared_afn_ptr(activationFn));
-    }
-    else
-    {
-        layers.insert(layers.begin() + index, Math::Matrix::generateRandom(size, 1, 1));
-        activationFns.insert(activationFns.begin() + index, shared_afn_ptr(activationFn));
-    }
-
-    initializeWeightsAndBias();
 }
 
 // do i really need this?? yeah i do
@@ -158,7 +142,7 @@ void FFNN::train(dataset &trainingData,
             printEval(testSpan);
 
 #if DEBUG
-        print();
+        layers[4].print();
 #endif
     }
 }

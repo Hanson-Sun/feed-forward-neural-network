@@ -1,7 +1,7 @@
 #include <vector>
 #include <cmath>
-#include "headers/Cost.h"
-#include "headers/Matrix.h"
+#include "Cost.h"
+#include "Matrix.h"
 
 namespace Cost
 {

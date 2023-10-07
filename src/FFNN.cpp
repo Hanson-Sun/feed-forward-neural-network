@@ -3,10 +3,10 @@
 #include <ctime>
 #include <algorithm>
 #include <span>
-#include "headers/Matrix.h"
-#include "headers/Cost.h"
-#include "headers/Activation.h"
-#include "headers/FFNN.h"
+#include "Matrix.h"
+#include "Cost.h"
+#include "Activation.h"
+#include "FFNN.h"
 
 #define DEBUG true
 
@@ -17,14 +17,13 @@ FFNN::FFNN(std::vector<int> s, Cost::CostFn *cFn, Activation::ActivationFn *fn)
     srand((unsigned)time(0));
     costFn = cFn;
     sizes = s;
-    int len = s.size();
 
     for (int s : sizes)
     {
         layers.push_back(Math::Matrix::generateRandom(s, 1));
     }
 
-    for (int i = 0; i < s.size(); i++)
+    for (std::size_t i = 0; i < s.size(); i++)
     {
         activationFns.push_back(shared_afn_ptr(fn));
     }
@@ -86,15 +85,15 @@ void FFNN::initializeWeightsAndBias(double scaling)
 {
     weights = {};
     bias = {};
-    int len = layers.size();
+    std::size_t len = layers.size();
 
-    for (int j = 1; j < len; j++)
+    for (std::size_t j = 1; j < len; j++)
     {
         int s = layers[j].getSize();
         bias.push_back(Math::Matrix::generateRandom(s, 1, scaling));
     }
     // initialize matrix of weight per layer
-    for (int j = 0; j < len - 1; j++)
+    for (std::size_t j = 0; j < len - 1; j++)
     {
         int cols = layers[j].getSize();
         int rows = layers[j + 1].getSize();
@@ -212,26 +211,26 @@ void FFNN::updateMiniBatch(const dataset_span_const &miniBatch, double learningR
         // for (int i = 0; i < dw.size(); i++)
         //     dw[i] += ddw[i];
 
-        for (int i = 0; i < db.size(); i++)
+        for (std::size_t i = 0; i < db.size(); i++)
         {
             ddb[i] *= c;
             bias[i] -= ddb[i];
         }
 
-        for (int i = 0; i < dw.size(); i++)
+        for (std::size_t i = 0; i < dw.size(); i++)
         {
             ddw[i] *= c;
             weights[i] -= ddw[i];
         }
     }
 
-    // for (int i = 0; i < weights.size(); i++)
+    // for (std::size_t i = 0; i < weights.size(); i++)
     // {
     //     dw[i] *= c;
     //     weights[i] -= dw[i];
     // }
 
-    // for (int i = 0; i < bias.size(); i++)
+    // for (std::size_t i = 0; i < bias.size(); i++)
     // {
     //     db[i] *= c;
     //     bias[i] -= db[i];
@@ -248,7 +247,7 @@ void FFNN::updateMiniBatch(const dataset_span_const &miniBatch, double learningR
 Math::Matrix FFNN::feedForward(Math::Matrix input)
 {
     // returns network output for input
-    for (int i = 0; i < weights.size(); i++)
+    for (std::size_t i = 0; i < weights.size(); i++)
     {
         input = activationFns[i + 1]->fn((weights[i] * input) + bias[i]);
     }
@@ -261,10 +260,10 @@ std::pair<std::vector<Math::Matrix>, std::vector<Math::Matrix>> FFNN::backPropag
     std::vector<Math::Matrix> db(bias.size());
     std::vector<Math::Matrix> dw(weights.size());
 
-    for (int i = 0; i < bias.size(); i++)
+    for (std::size_t i = 0; i < bias.size(); i++)
         db[i] = Math::Matrix(bias[i]);
 
-    for (int i = 0; i < weights.size(); i++)
+    for (std::size_t i = 0; i < weights.size(); i++)
         dw[i] = Math::Matrix(weights[i]);
 
     Math::Matrix activation = x;
@@ -273,7 +272,7 @@ std::pair<std::vector<Math::Matrix>, std::vector<Math::Matrix>> FFNN::backPropag
     std::vector<Math::Matrix> zVals(bias.size());
 
     // propagate the values forward starting at x, and keep track of each layer
-    for (int i = 0; i < bias.size(); i++)
+    for (std::size_t i = 0; i < bias.size(); i++)
     {
         Math::Matrix z = weights[i] * activation + bias[i];
         zVals[i] = z;
@@ -286,7 +285,7 @@ std::pair<std::vector<Math::Matrix>, std::vector<Math::Matrix>> FFNN::backPropag
     db[db.size() - 1] = delta;
     dw[dw.size() - 1] = Math::Matrix::oProd(delta, layers[layers.size() - 2]);
 
-    for (int l = 2; l < layers.size(); l++)
+    for (std::size_t l = 2; l < layers.size(); l++)
     {
         Math::Matrix z = zVals[zVals.size() - l];
 

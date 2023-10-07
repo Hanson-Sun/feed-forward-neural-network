@@ -1,9 +1,9 @@
 #include <iostream>
 #include <tuple>
-#include "headers/Matrix.h"
-#include "headers/FFNN.h"
-#include "headers/Read.h"
-#include "headers/Constants.h"
+#include "Matrix.h"
+#include "FFNN.h"
+#include "Read.h"
+#include "Constants.h"
 
 dataset generateData(int len)
 {
@@ -90,6 +90,7 @@ int main()
 
 #endif
 
+
 // data visualization fr.
 #if false
 
@@ -156,7 +157,7 @@ int main()
     }
 #endif
 
-#if true
+#if false
     {
 
         FFNN nn(std::vector<int>{2, 4, 3}, new Cost::CrossEntropy(), new Activation::LeakyRelu());
@@ -242,14 +243,19 @@ int main()
     // (m3 * vect1).print();
 #endif
 
-#if false
+#if true
     Math::Matrix M1({{1, 2}, {4, 5}, {7, 8}});
     Math::Matrix M2({{1, 2, 3}, {4, 5, 6}});
 
     Math::Matrix M3 = Math::Matrix(512, 512, 2);
     Math::Matrix M4 = Math::Matrix(512, 1, 2);
 
-    int n = 10;
+    Math::Matrix M5 = Math::Matrix::generateRandom(1024, 1024);
+    Math::Matrix M6 = Math::Matrix::generateRandom(1024, 1024);
+
+    Math::Matrix sum(1024, 1024, 0);
+
+    int n = 10000;
 
     std::cout << "begin multiplication" << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
@@ -258,6 +264,7 @@ int main()
         M1 * M2;
         M3 * M3;
         M3 * M4;
+        sum += M5 * M6;
         std::cout << i << " finished" << std::endl;
     }
     auto stop = std::chrono::high_resolution_clock::now();

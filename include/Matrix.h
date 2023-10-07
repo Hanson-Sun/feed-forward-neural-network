@@ -114,7 +114,7 @@ namespace Math
          */
         void start(std::size_t numThreads)
         {
-            for (int i = 0; i < numThreads; i++)
+            for (std::size_t i = 0; i < numThreads; i++)
             {
                 threads.emplace_back([=, this]
                                      {
@@ -178,10 +178,10 @@ namespace Math
     class Matrix
     {
     private:
-        std::vector<double> vals;
-        int rows;
         int cols;
+        int rows;
         int size;
+        std::vector<double> vals;
 
         /**
          * @brief an abstracted method that allows the easy creation of operations optimized by thread pools
@@ -281,13 +281,7 @@ namespace Math
          * @brief Construct a new default Matrix object
          *
          */
-        Matrix()
-        {
-            rows = 0;
-            cols = 0;
-            vals = std::vector<double>();
-            size = 0;
-        }
+        Matrix() : cols(0), rows(0), size(0), vals(std::vector<double>()) {}
 
         /**
          * @brief Construct a new Matrix object
@@ -298,8 +292,8 @@ namespace Math
          */
         Matrix(int rows, int cols, double val = 0) : cols(cols), rows(rows)
         {
-            vals = std::vector<double>(rows * cols, val);
             size = rows * cols;
+            vals = std::vector<double>(rows * cols, val);
         }
 
         /**
@@ -309,12 +303,10 @@ namespace Math
          * @param cols
          * @param v
          */
-        Matrix(int rows, int cols, const std::vector<double> &v)
+        Matrix(int rows, int cols, const std::vector<double> &v) : cols(cols), rows(rows)
         {
-            if (rows * cols != v.size())
+            if (static_cast<std::vector<double>::size_type>(rows * cols) != v.size())
                 throw std::invalid_argument("Row and column dimensions do not match input vector.");
-            Matrix::cols = cols;
-            Matrix::rows = rows;
             vals = v;
             size = rows * cols;
         }
@@ -359,7 +351,7 @@ namespace Math
             for (int i = 0; i < rows; i++)
             {
                 std::vector<double> v = vv[i];
-                if (v.size() != cols)
+                if (v.size() != static_cast<std::vector<double>::size_type>(cols))
                     throw std::invalid_argument("Rows must be same length.");
 
                 vals.insert(vals.end(), v.begin(), v.end());
@@ -698,7 +690,7 @@ namespace Math
                 throw std::invalid_argument("Dot product must be performed between two column matrices or two row matrices of the same size");
 
             double sum = 0;
-            for (int i = 0; i < m1Vals.size(); i++)
+            for (std::size_t i = 0; i < m1Vals.size(); i++)
                 sum += m1Vals[i] * m2Vals[i];
 
             return sum;
@@ -718,7 +710,7 @@ namespace Math
             int m2Cols = m2.getCols();
             int m2Rows = m2.getRows();
 
-            if (m1.getRows() != m2.getRows())
+            if (m1Rows!= m2Rows)
                 throw std::invalid_argument("Dimension mismatch.");
 
             std::vector<double> v(m1Cols * m2Cols);
@@ -784,7 +776,7 @@ namespace Math
             if (m1.getCols() != m2.getCols() || m1.getRows() != m2.getRows())
                 throw std::invalid_argument("Hadamard product must be performed between two matrices of the same dimensions.");
 
-            for (int i = 0; i < m1Vals.size(); i++)
+            for (std::size_t i = 0; i < m1Vals.size(); i++)
                 m1[i] *= m2Vals[i];
 
             return m1;
@@ -912,6 +904,11 @@ namespace Math
             out << m.toString();
             return out;
         }
+
+        /**
+         * @brief default copy assignment
+        */
+        Matrix& operator=(const Matrix&) = default;
 
         /**
          * @brief type cast override

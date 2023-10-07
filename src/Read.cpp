@@ -5,8 +5,8 @@
 #include <tuple>
 #include <vector>
 #include <cmath>
-#include "headers/Matrix.h"
-#include "headers/Read.h"
+#include "Matrix.h"
+#include "Read.h"
 
 Math::Matrix generateLabel(int i)
 {

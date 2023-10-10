@@ -42,7 +42,7 @@ public:
 
     Math::Matrix feedForward(Math::Matrix input);
 
-    std::pair<std::vector<Math::Matrix>, std::vector<Math::Matrix>> backPropagate(const Math::Matrix &x, const Math::Matrix &y);
+    void backPropagate(const Math::Matrix &x, const Math::Matrix &y, double c);
 
     std::pair<double, double> evaluate(const dataset_span_const &testingData);
     std::pair<double, double> evaluate(const dataset &testingData);

@@ -8,7 +8,7 @@
 #include "Activation.h"
 #include "FFNN.h"
 
-#define DEBUG true
+#define DEBUG false
 
 // minimum two layers, ok it makes sense to initialize weights after everything is added...
 // this might be slow but idgaf tbh
@@ -162,7 +162,6 @@ void FFNN::train(dataset &data, int epochs, int miniBatchSize, double learningRa
         {
             auto end = (j + miniBatchSize < trainingSize) ? (data.begin() + j + miniBatchSize) : data.begin() + trainingSize;
             dataset_span miniBatchSpan(data.begin() + j, end);
-
             updateMiniBatch(miniBatchSpan, learningRate);
         }
 
@@ -171,7 +170,7 @@ void FFNN::train(dataset &data, int epochs, int miniBatchSize, double learningRa
             printEval(testSpan);
 
 #if DEBUG
-        print();
+        layers[4].print();
 #endif
     }
 }
@@ -179,50 +178,10 @@ void FFNN::train(dataset &data, int epochs, int miniBatchSize, double learningRa
 // update weights and bias with back propagation
 void FFNN::updateMiniBatch(const dataset_span_const &miniBatch, double learningRate)
 {
-    std::vector<Math::Matrix> db(bias.size());
-    std::vector<Math::Matrix> dw(weights.size());
-
     double c = learningRate / miniBatch.size();
-
-    // for (int i = 0; i < bias.size(); i++)
-    //     db[i] = Math::Matrix(bias[i]);
-
-    // for (int i = 0; i < weights.size(); i++)
-    //     dw[i] = Math::Matrix(weights[i]);
-
     for (const data_pair &tup : miniBatch)
-    {
-        std::pair<std::vector<Math::Matrix>, std::vector<Math::Matrix>> backProp;
-        try
-        {
-            backProp = backPropagate(std::get<0>(tup), std::get<1>(tup));
-        }
-        catch (const std::exception &e)
-        {
-            std::cout << ("Exception occurred at line " + std::to_string(__LINE__) + ": ") << e.what() << std::endl;
-            std::runtime_error("Back prop sucks");
-        }
-        std::vector<Math::Matrix> ddb = backProp.first;
-        std::vector<Math::Matrix> ddw = backProp.second;
+        backPropagate(std::get<0>(tup), std::get<1>(tup), c);
 
-        // for (int i = 0; i < db.size(); i++)
-        //     db[i] += ddb[i];
-
-        // for (int i = 0; i < dw.size(); i++)
-        //     dw[i] += ddw[i];
-
-        for (std::size_t i = 0; i < db.size(); i++)
-        {
-            ddb[i] *= c;
-            bias[i] -= ddb[i];
-        }
-
-        for (std::size_t i = 0; i < dw.size(); i++)
-        {
-            ddw[i] *= c;
-            weights[i] -= ddw[i];
-        }
-    }
 
     // for (std::size_t i = 0; i < weights.size(); i++)
     // {
@@ -248,24 +207,12 @@ Math::Matrix FFNN::feedForward(Math::Matrix input)
 {
     // returns network output for input
     for (std::size_t i = 0; i < weights.size(); i++)
-    {
         input = activationFns[i + 1]->fn((weights[i] * input) + bias[i]);
-    }
     return input;
 }
 
-std::pair<std::vector<Math::Matrix>, std::vector<Math::Matrix>> FFNN::backPropagate(const Math::Matrix &x, const Math::Matrix &y)
+void FFNN::backPropagate(const Math::Matrix &x, const Math::Matrix &y, double c)
 {
-    // do i really need this? or can i directly add to the weights
-    std::vector<Math::Matrix> db(bias.size());
-    std::vector<Math::Matrix> dw(weights.size());
-
-    for (std::size_t i = 0; i < bias.size(); i++)
-        db[i] = Math::Matrix(bias[i]);
-
-    for (std::size_t i = 0; i < weights.size(); i++)
-        dw[i] = Math::Matrix(weights[i]);
-
     Math::Matrix activation = x;
     layers[0] = x;
 
@@ -280,21 +227,20 @@ std::pair<std::vector<Math::Matrix>, std::vector<Math::Matrix>> FFNN::backPropag
         layers[i + 1] = activation;
     }
 
-    Math::Matrix delta = Math::Matrix::hProd(costFn->funcDx(layers[layers.size() - 1], y), activationFns[layers.size() - 1]->fnDerv(zVals[zVals.size() - 1]));
-
-    db[db.size() - 1] = delta;
-    dw[dw.size() - 1] = Math::Matrix::oProd(delta, layers[layers.size() - 2]);
+    Math::Matrix delta{Math::Matrix::hProd(costFn->funcDx(layers[layers.size() - 1], y), activationFns[layers.size() - 1]->fnDerv(zVals[zVals.size() - 1]))};
+    delta *= c;
+    bias[bias.size() - 1] -= delta;
+    weights[weights.size() - 1] -= Math::Matrix::oProd(delta, layers[layers.size() - 2]);
 
     for (std::size_t l = 2; l < layers.size(); l++)
     {
-        Math::Matrix z = zVals[zVals.size() - l];
-
+        Math::Matrix z{zVals[zVals.size() - l]};
         delta = Math::Matrix::hProd(Math::Matrix::iProd(weights[weights.size() - l + 1], delta), activationFns[layers.size() - l]->fnDerv(z));
-        db[db.size() - l] = delta;
-        dw[dw.size() - l] = Math::Matrix::oProd(delta, layers[layers.size() - l - 1]);
+        delta *= c;
+        bias[bias.size() - l] -= delta;
+        weights[weights.size() - l] -= Math::Matrix::oProd(delta, layers[layers.size() - l - 1]);
     }
 
-    return std::make_pair(db, dw);
 }
 
 std::pair<double, double> FFNN::evaluate(const dataset_span_const &testingData)
@@ -303,9 +249,7 @@ std::pair<double, double> FFNN::evaluate(const dataset_span_const &testingData)
     double cost = 0;
 
     for (const data_pair &tup : testingData)
-    {
         evalPair(correct, cost, tup);
-    }
     return std::pair<double, double>(correct / testingData.size(), cost);
 }
 
@@ -315,9 +259,7 @@ std::pair<double, double> FFNN::evaluate(const dataset &testingData)
     double cost = 0;
 
     for (const data_pair &tup : testingData)
-    {
         evalPair(correct, cost, tup);
-    }
     return std::pair<double, double>(correct / testingData.size(), cost);
 }
 

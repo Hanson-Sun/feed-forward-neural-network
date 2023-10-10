@@ -116,29 +116,30 @@ int main()
 #endif
 #if false
     {
-        dataset training = readData("data/mnist_train.csv", 100);
-        dataset testing = readData("data/mnist_test.csv", 10);
+        dataset training = readData("data/mnist_test.csv", 1000);
 
-        FFNN nn(std::vector<int>{784, 128, 64, 32},new Cost::CrossEntropy(), new Activation::LeakyRelu());
-        nn.addLayer(10, new Activation::Linear());
+        std::cout << std::thread::hardware_concurrency() << std::endl;
+
+        FFNN nn(std::vector<int>{784, 128, 64, 32},new Cost::L2Cost(), new Activation::LeakyRelu());
+        nn.addLayer(10, new Activation::Sigmoid());
 
         //nn.print();
 
-        nn.train(training, 300, 100, 0.001, testing);
+        nn.train(training, 300, 1000, 0.1, 0.90);
 
-        std::cout << nn.evaluate(testing).first << ", " << nn.evaluate(testing).second << std::endl;
+        std::cout << nn.evaluate(training).first << ", " << nn.evaluate(training).second << std::endl;
     }
 #endif
 
 #if false
     {
-        FFNN nn(std::vector<int>{2, 1}, new Cost::L2Cost(), new Activation::Linear());
-        std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateLinearData(1000);
-        std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateLinearData(1);
+        FFNN nn(std::vector<int>{2, 1, 1, 1}, new Cost::L2Cost(), new Activation::Sigmoid());
+        dataset training = generateLinearData(1000);
+        dataset testing = generateLinearData(1);
 
-        nn.train(training, 250, 1000, 0.01);
+        nn.train(training, 250, 1000, 0.2, testing);
 
-        std::cout << nn.evaluate(testing) << std::endl;
+        std::cout << nn.evaluate(testing).first << std::endl;
         nn.print();
     }
 #endif
@@ -157,10 +158,10 @@ int main()
     }
 #endif
 
-#if false
+#if true
     {
 
-        FFNN nn(std::vector<int>{2, 4, 3}, new Cost::CrossEntropy(), new Activation::LeakyRelu());
+        FFNN nn(std::vector<int>{2, 4, 4, 4, 3}, new Cost::L2Cost(), new Activation::LeakyRelu());
         nn.addLayer(2, new Activation::Sigmoid());
 
         //nn.print();
@@ -169,10 +170,10 @@ int main()
 
         // std::vector<std::tuple<Math::Matrix, Math::Matrix>> training = generateData(2000);
         // std::vector<std::tuple<Math::Matrix, Math::Matrix>> testing = generateData(300);
-        dataset training = generateQuarterCircleData(1000);
-        dataset testing = generateQuarterCircleData(100);
+        dataset training = generateQuarterCircleData(2000);
+        dataset testing = generateQuarterCircleData(500);
 
-        nn.train(training, 300, 1000, 0.1, testing);
+        nn.train(training, 300, 1000, 2, testing);
 
         std::cout << nn.evaluate(testing).first << ", " << nn.evaluate(testing).second << std::endl;
     }
@@ -243,7 +244,7 @@ int main()
     // (m3 * vect1).print();
 #endif
 
-#if true
+#if false
     Math::Matrix M1({{1, 2}, {4, 5}, {7, 8}});
     Math::Matrix M2({{1, 2, 3}, {4, 5, 6}});
 

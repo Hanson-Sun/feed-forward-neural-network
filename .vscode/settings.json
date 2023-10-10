@@ -86,7 +86,8 @@
         "future": "cpp",
         "cinttypes": "cpp",
         "fstream": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "variant": "cpp"
     },
 
     "makefile.configurations": [

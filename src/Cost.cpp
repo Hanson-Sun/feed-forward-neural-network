@@ -16,7 +16,7 @@ namespace Cost
     }
     Math::Matrix L2Cost::funcDx(Math::Matrix x, Math::Matrix y)
     {
-        return (x - y);
+        return x - y;
     }
 
     double CrossEntropy::func(Math::Matrix x, Math::Matrix y)

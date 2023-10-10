@@ -16,9 +16,8 @@ namespace Activation
     Math::Matrix Sigmoid::fnDerv(Math::Matrix x)
     {
         x.applyFnHere([](double i)
-                      {
-            double sig = 1.0 / (1 + exp(-i));
-            return sig * (1 - sig); });
+                      {double sig = 1.0 / (1 + exp(-i));
+                        return sig * (1 - sig); });
         return x;
     }
 
@@ -44,7 +43,7 @@ namespace Activation
     Math::Matrix Relu::fnDerv(Math::Matrix x)
     {
 
-       x.applyFnHere([](double i)
+        x.applyFnHere([](double i)
                       { return (i > 0) ? 1.0 : 0.0; });
 
         return x;
@@ -53,7 +52,7 @@ namespace Activation
     Math::Matrix LeakyRelu::fn(Math::Matrix x)
     {
         x.applyFnHere([&](double i) -> double
-                      {return ((i > 0) ? i : (i * m)); });
+                      { return ((i > 0) ? i : (i * m)); });
 
         return x;
     }
@@ -61,7 +60,7 @@ namespace Activation
     Math::Matrix LeakyRelu::fnDerv(Math::Matrix x)
     {
         x.applyFnHere([&](double i) -> double
-                      {return (i > 0) ? 1 : m; });
+                      { return (i > 0) ? 1 : m; });
 
         return x;
     }

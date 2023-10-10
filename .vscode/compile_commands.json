@@ -1,0 +1,37 @@
+[
+    {
+        "command": "g++ -std=c++20 -c -g -Ofast -Wall -Wextra -pedantic -I./include src/Activation.cpp -o dist/Activation.o\r",
+        "directory": "c:/Users/docto/Documents/GitHub/feed-forward-neural-network",
+        "file": "c:\\Users\\docto\\Documents\\GitHub\\feed-forward-neural-network\\src\\Activation.cpp"
+    },
+    {
+        "command": "g++ -std=c++20 -c -g -Ofast -Wall -Wextra -pedantic -I./include src/Cost.cpp -o dist/Cost.o\r",
+        "directory": "c:/Users/docto/Documents/GitHub/feed-forward-neural-network",
+        "file": "c:\\Users\\docto\\Documents\\GitHub\\feed-forward-neural-network\\src\\Cost.cpp"
+    },
+    {
+        "command": "g++ -std=c++20 -c -g -Ofast -Wall -Wextra -pedantic -I./include src/FFNN.cpp -o dist/FFNN.o\r",
+        "directory": "c:/Users/docto/Documents/GitHub/feed-forward-neural-network",
+        "file": "c:\\Users\\docto\\Documents\\GitHub\\feed-forward-neural-network\\src\\FFNN.cpp"
+    },
+    {
+        "command": "g++ -std=c++20 -c -g -Ofast -Wall -Wextra -pedantic -I./include src/Read.cpp -o dist/Read.o\r",
+        "directory": "c:/Users/docto/Documents/GitHub/feed-forward-neural-network",
+        "file": "c:\\Users\\docto\\Documents\\GitHub\\feed-forward-neural-network\\src\\Read.cpp"
+    },
+    {
+        "command": "g++ -std=c++20 -c -g -Ofast -Wall -Wextra -pedantic -I./include src/main.cpp -o dist/main.o\r",
+        "directory": "c:/Users/docto/Documents/GitHub/feed-forward-neural-network",
+        "file": "c:\\Users\\docto\\Documents\\GitHub\\feed-forward-neural-network\\src\\main.cpp"
+    },
+    {
+        "command": "g++ -std=c++20 -c -g -Ofast -Wall -Wextra -pedantic -I./include src/matrix_deprecated.cpp -o dist/matrix_deprecated.o\r",
+        "directory": "c:/Users/docto/Documents/GitHub/feed-forward-neural-network",
+        "file": "c:\\Users\\docto\\Documents\\GitHub\\feed-forward-neural-network\\src\\matrix_deprecated.cpp"
+    },
+    {
+        "command": "g++ -std=c++20 -c -g -Ofast -Wall -Wextra -pedantic -I./include src/vector.cpp -o dist/vector.o\r",
+        "directory": "c:/Users/docto/Documents/GitHub/feed-forward-neural-network",
+        "file": "c:\\Users\\docto\\Documents\\GitHub\\feed-forward-neural-network\\src\\vector.cpp"
+    }
+]

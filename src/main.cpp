@@ -116,16 +116,17 @@ int main()
 #endif
 #if false
     {
-        dataset training = readData("data/mnist_test.csv", 1000);
+        dataset training = readData("C:\\Users\\docto\\Documents\\GitHub\\feed-forward-neural-network\\data\\mnist_test.csv", 10000);
 
         std::cout << std::thread::hardware_concurrency() << std::endl;
 
         FFNN nn(std::vector<int>{784, 128, 64, 32},new Cost::L2Cost(), new Activation::LeakyRelu());
+        // FFNN nn(std::vector<int>{784, 32}, new Cost::L2Cost(), new Activation::LeakyRelu());
         nn.addLayer(10, new Activation::Sigmoid());
 
         //nn.print();
 
-        nn.train(training, 300, 1000, 0.1, 0.90);
+        nn.train(training, 300, 2500, 1, 0.90);
 
         std::cout << nn.evaluate(training).first << ", " << nn.evaluate(training).second << std::endl;
     }

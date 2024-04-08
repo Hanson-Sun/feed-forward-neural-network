@@ -8,6 +8,7 @@
 #include <queue>
 #include <thread>
 #include <condition_variable>
+#include <semaphore>
 
 /**
  * @brief A namespace that contains a ThreadPool and Matrix class.
@@ -70,19 +71,18 @@ namespace Math
          * @return std::future<decltype(task())> whatever value the task returns when it completes
          */
         template <class T>
-        auto enqueue(T task) -> std::future<decltype(task())>
+        void enqueue(T task) // -> std::future<decltype(task())>
         {
             // something about wrapping the task to get a future value.
-            auto wrapper = std::make_shared<std::packaged_task<decltype(task())()>>(std::move(task));
+            // auto wrapper = std::make_shared<std::packaged_task<decltype(task())()>>(std::move(task));
             {
                 std::unique_lock<std::mutex> lock{eventMutex};
-                tasks.emplace([=, this]
-                              { (*wrapper)(); });
+                tasks.emplace(task);
             }
 
             // remainingTasks.fetch_add(1);
             event.notify_one();
-            return wrapper->get_future();
+            // return wrapper->get_future();
         }
 
         void waitUntilEmpty()
@@ -139,16 +139,7 @@ namespace Math
                     }
 
                     //performs the first task, this is out of scope because it should not be locked by the mutex during execution
-                    try
-                    {
-                        task();
-                    }
-                    catch(const std::exception& e)
-                    {
-                        std::cerr << "ok so my tasks suck " << e.what() << '\n';
-                        throw std::runtime_error("wow this sucks");
-                    }
-
+                    task();
                 } });
             }
         }
@@ -191,56 +182,58 @@ namespace Math
          */
         static void threadPoolProcess(std::function<void(int start, int end)> fn, int rows)
         {
-            try
-            {
+
                 /* code */
 
-                std::condition_variable event;
-                static std::mutex eventMutex;
-                std::atomic<int> completedTasksCount(0);
+            const int MAX_THREADS = Matrix::threadPool.getPoolSize();
+            const int threadNum = std::min({ rows, MAX_THREADS });
 
-                const int MAX_THREADS = Matrix::threadPool.getPoolSize();
-                const int threadNum = std::min({rows, MAX_THREADS});
+            std::condition_variable event;
+            static std::mutex eventMutex;
+            std::atomic<int> completedTasksCount(0);
+            std::counting_semaphore<512> sem(0);
+            
 
-                int block = std::max(rows / threadNum, 1);
+            int block = std::max(rows / threadNum, 1);
 
-                int start = 0;
-                int end = block;
+            int start = 0;
+            int end = block;
 
-                for (int i = 0; i < threadNum - 1; i++)
-                {
-
-                    Matrix::threadPool.enqueue([start, end, &fn, &completedTasksCount, &event]
-                                               {fn(start, end);
-                                            {
-                                                std::unique_lock<std::mutex> lock{eventMutex};
-                                                completedTasksCount.fetch_add(1);
-                                                event.notify_one();
-                                            } });
-                    start = end;
-                    end += block;
-                }
-
-                Matrix::threadPool.enqueue([start, rows, &fn, &completedTasksCount, &event]
-                                           {fn(start, rows);
-                                        {
-                                            std::unique_lock<std::mutex> lock{eventMutex};
-                                            completedTasksCount.fetch_add(1);
-                                            event.notify_one();
-                                        } });
-
-                {
-                    std::unique_lock<std::mutex> lock{eventMutex};
-                    event.wait(lock, [&completedTasksCount, threadNum]
-                               { return completedTasksCount == threadNum; });
-                    // event.notify_all();
-                }
-            }
-            catch (const std::exception &e)
+            for (int i = 0; i < threadNum - 1; i++)
             {
-                std::cerr << "thread process dies " << e.what() << '\n';
-                throw std::runtime_error("krill myself");
+
+                Matrix::threadPool.enqueue([start, end, &fn, &sem]
+                                            {fn(start, end);
+                                        {
+                                           // std::unique_lock<std::mutex> lock{eventMutex};
+                                           // completedTasksCount.fetch_add(1);
+                                           // event.notify_one();
+                                            sem.release();
+                                        } });
+                start = end;
+                end += block;
             }
+
+            Matrix::threadPool.enqueue([start, rows, &fn, &sem]
+                                        {fn(start, rows);
+                                    {
+                                        //std::unique_lock<std::mutex> lock{eventMutex};
+                                        //completedTasksCount.fetch_add(1);
+                                        //event.notify_one();
+                                        sem.release();
+                                    } });
+
+            /*
+            {
+                std::unique_lock<std::mutex> lock{eventMutex};
+                event.wait(lock, [&completedTasksCount, threadNum]
+                            { return completedTasksCount == threadNum; });
+                // event.notify_all();
+            }*/
+
+            for (size_t i = 0 ; i < threadNum; i++)
+                sem.acquire();
+
         }
         /**
          * @brief an abstracted function that just uses basic multi-threading.
@@ -611,7 +604,7 @@ namespace Math
                                           v[i * mCols + j] += vals[i * cols + k] * m[k * mCols + j]; },
                               rows);
 
-            vals = v;
+            vals = std::move(v);
             cols = mCols;
             size = rows * cols;
 
